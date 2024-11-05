@@ -2,9 +2,30 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <link rel="icon" href="/favicon.ico">
+    <!--<link rel="icon" href="/favicon.ico">-->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vite App</title>
+    <title>City Hunter</title>
+    <script>
+      (function loadGoogleMapsAPI() {
+        const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+        const script = document.createElement("script");
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&v=alpha&libraries=maps3d,places,geometry`;
+        script.async = true;
+        script.defer = true;
+
+        script.onload = () => {
+          console.log("Google Maps API loaded.");
+        };
+
+        script.onerror = () => {
+          console.error("Failed to load Google Maps API.");
+        };
+
+        document.head.appendChild(script);
+      })();
+    </script>
+    <script async src="https://maps.googleapis.com/maps/api/js?key=REMOVED&v=alpha&libraries=maps3d,places,geometry"></script>
   </head>
   <body>
     <div id="app"></div>
