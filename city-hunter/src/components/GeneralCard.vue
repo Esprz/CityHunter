@@ -6,7 +6,8 @@ import MagnifyButton from './MagnifyButton.vue'
 const props = defineProps({
     title: String,
     ifMagnify: Boolean,
-    magnifyAction:Function,
+    magnifyAction: Function,
+    avatarList: Array || null,
 });
 </script>
 
@@ -14,9 +15,13 @@ const props = defineProps({
     <div class="card">
         <div class="card-top">
             <h3> {{ title }} </h3>
-            <MagnifyButton  v-if="ifMagnify" @click="magnifyAction"/>
+            <MagnifyButton v-if="ifMagnify" @click="magnifyAction" />
         </div>
         <div class="card-bottom">
+
+            <span v-for="(avatar, index) in avatarList" :key="index">
+                <img :src="avatar.avatar" class="store-avatar" />
+            </span>
         </div>
     </div>
 </template>
@@ -42,5 +47,12 @@ const props = defineProps({
 .card-bottom {
     padding: 10px;
     background-color: white;
+    /*white-space: nowrap;*/
+    overflow: hidden;
+}
+
+.store-avatar {
+    margin: 5px;
+    overflow: hidden;
 }
 </style>

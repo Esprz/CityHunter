@@ -12,12 +12,9 @@ function returnToHunt() {
 }
 const todoList = computed(() =>
     huntStore.huntStores
-        .filter(store => !store.visited)
+        .filter(store => store.visited)
         .map(store => ({
-            title: store.name,
-            distance: store.distance,
-            time: store.walkTime,
-            avatar:store.avatar,
+            title: store.name
         }))
 );
 
@@ -27,19 +24,19 @@ const todoList = computed(() =>
     <div class="page-container">
         <div class="page-header">
             <svg-icon @click=returnToHunt type="mdi" :path=mdiChevronDown></svg-icon>
-            <h1>To do</h1>
+            <h1>Achieved</h1>
             <svg-icon type="mdi" :path=mdiExportVariant></svg-icon>
         </div>
 
-        <ul v-for="(todo, index) in todoList" :key="index" class="todo-item">
-            <TodoCard :title="todo.title" :distance="todo.distance" :time="todo.time" :avatar="todo.avatar" />
+        <ul v-for="(todo, index) in todoList" :key="index" class="achieved-item">
+            <TodoCard :title="todo.title" />
         </ul>
 
     </div>
 </template>
 
 <style scoped>
-.todo-item {
+.achieved-item {
     background-color: white;
     margin: 20px;
     padding: 13px;

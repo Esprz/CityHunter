@@ -5,8 +5,9 @@ import SvgIcon from '@jamescoyle/vue-icon';
 
 const props = defineProps({
     title: String,
-    distance: Number,
-    time: Number
+    distance: String || null,
+    time: String || null,
+    avatar: String || null,
 });
 
 </script>
@@ -14,20 +15,20 @@ const props = defineProps({
 <template>
     <div class="todo-item-container">
 
-        <img class="shop-image" src="https://github.com/radix-vue.png" />
+        <img class="shop-image" :src="avatar ? avatar : 'https://github.com/radix-vue.png'" alt="Shop Avatar" />
 
         <div>
             <h2>{{ title }}</h2>
-            <div class="distance">
+            <div v-if="distance !== null" class="distance">
 
                 <span class="distance-item">
-                    <svg-icon  type="mdi" :path=mdiDirections></svg-icon>
-                    <p>{{ distance }} km</p>
+                    <svg-icon type="mdi" :path=mdiDirections></svg-icon>
+                    <p>{{ distance }}</p>
                 </span>
 
                 <span class="distance-item">
                     <svg-icon type="mdi" :path=mdiWalk></svg-icon>
-                    <p>{{ time }} min</p>
+                    <p>{{ time }}</p>
                 </span>
             </div>
         </div>
@@ -57,5 +58,6 @@ const props = defineProps({
 .distance-item {
     display: flex;
     margin-right: 10px;
+    gap: 3px;
 }
 </style>

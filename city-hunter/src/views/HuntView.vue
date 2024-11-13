@@ -8,14 +8,31 @@ import { useEventStore } from '@/stores/eventStore';
 import LocationNameCard from '@/components/LocationNameCard.vue';
 import DistanceCard from '@/components/DistanceCard.vue';
 import { useRouter } from 'vue-router';
+import { useHuntStore } from "@/stores/huntStore";
 const eventStore = useEventStore();
+const huntStore = useHuntStore();
 const isEnrolled = computed(() => eventStore.isEnrolled);
 const router = useRouter();
-function goToReward() {
-    router.push('/rewards');
-}
+const todoAvatarList = computed(() =>
+    huntStore.huntStores
+        .filter(store => !store.visited)
+        .map(store => ({
+            avatar: store.avatar,
+        }))
+);
+const achievedAvatarList = computed(() =>
+    huntStore.huntStores
+        .filter(store => store.visited)
+        .map(store => ({
+            avatar: store.avatar,
+        }))
+);
+
 function goToTodo() {
     router.push('/todo');
+}
+function goToAchieved(){
+  router.push('/achieved');
 }
 </script>
 
@@ -36,8 +53,8 @@ function goToTodo() {
     <div class="hunt-info">
       <div v-if="isEnrolled">
         <div class="eventCard">
-          <GeneralCard title="To Do" if-magnify=true :magnify-action=goToTodo />
-          <GeneralCard title="Achieved" if-magnify=false :magnify-action=goToReward />
+          <GeneralCard title="To Do" if-magnify=true :magnify-action=goToTodo :avatar-list="todoAvatarList"/>
+          <GeneralCard title="Achieved" if-magnify=false :magnify-action=goToAchieved :avatar-list="achievedAvatarList"/>
         </div>
       </div>
       <div v-else>
