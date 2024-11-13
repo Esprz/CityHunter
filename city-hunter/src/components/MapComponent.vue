@@ -3,6 +3,7 @@ import { onMounted } from "vue";
 import { useHuntStore } from "../stores/huntStore";
 import SvgIcon from '@jamescoyle/vue-icon';
 import { mdiCircle } from '@mdi/js';
+import { loadGoogleMapsAPI } from "@/utils/loadGoogleMapsAPI";
 
 const store = useHuntStore();
 let map3D = null;
@@ -13,6 +14,16 @@ async function initMap3D() {
     console.error("Current location is not available.");
     return;
   }
+
+  if (store.map3D) {
+    console.log("3D map already initialized.");
+    map3D = store.map3D;
+    const container = document.querySelector(".map-container");
+    container.appendChild(map3D);
+    //renderMarkers();
+    return;
+  }
+
   const { Map3DElement, Marker3DElement } = await google.maps.importLibrary("maps3d");
   const { PinElement } = await google.maps.importLibrary("marker");
 
@@ -29,8 +40,6 @@ async function initMap3D() {
   const container = document.querySelector(".map-container");
   container.appendChild(map3D);
   store.setMap3D(map3D);
-
-
 
 
   const parser = new DOMParser();
@@ -148,9 +157,11 @@ function animateMarker(marker, path) {
 
 
 onMounted(async () => {
+  await loadGoogleMapsAPI();
   await store.fetchCurrentLocation();
   await initMap3D();
-  await store.fetchStoreDetails(store.map3D);
+  if (!store.fetchedStoreDetails)
+    await store.fetchStoreDetails(store.map3D);
 });
 
 </script>
