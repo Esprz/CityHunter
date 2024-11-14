@@ -24,7 +24,7 @@ const avatarList = computed(() =>
 
 <template>
     <div class="register-card">
-        <GeneralCard title="Today's Hunting Challenge" if-magnify=true :magnify-action=goToTodo :avatar-list="avatarList" />
+        <GeneralCard title="Today's Hunting Challenge" :if-magnify=true :magnify-action=goToTodo :avatar-list="avatarList" />
         <button class="register-button" @click=enrollEvent>
             <p>I'm ready to start</p>
         </button>
