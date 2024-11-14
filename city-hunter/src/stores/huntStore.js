@@ -1,66 +1,20 @@
 import { defineStore } from "pinia";
+import { useMapStore } from "./mapStore";
 
 export const useHuntStore = defineStore("store", {
   state: () => ({
-    map3D: null,
-    currentLocation: null,
-    markers: [],
     huntStores: [
-      { name: "Dominique Ansel Bakery", place_id: "ChIJP0KOWoxZwokRmvPiQAIaH1A", visited: false, distance: null, walkTime: null, avatar:'/avatars/Category=Burger.svg' },
-      { name: "The Metropolitan Museum of Art", place_id: "ChIJb8Jg9pZYwokR-qHGtvSkLzs", visited: false, distance: null, walkTime: null , avatar:'/avatars/Category=Donut.svg'},
-      { name: "Chelsea Market", place_id: "ChIJw2lMFL9ZwokRosAtly52YX4", visited: false, distance: null, walkTime: null , avatar:'/avatars/Category=Food_market.svg'},
-      { name: "Eataly NYC Downtown", place_id: "ChIJvx7i_BlawokRidb5WfdvqRM", visited: false, distance: null, walkTime: null , avatar:'/avatars/Category=French.svg'},
-      { name: "La Parisienne", place_id: "ChIJt1KQKxhawokRujL-AUeoW-Y", visited: false, distance: null, walkTime: null , avatar:'/avatars/Category=Museum.svg'},
+      { name: "Dominique Ansel Bakery", place_id: "ChIJP0KOWoxZwokRmvPiQAIaH1A", visited: false, distance: null, walkTime: null, avatar: '/avatars/Category=Burger.svg' },
+      { name: "The Metropolitan Museum of Art", place_id: "ChIJb8Jg9pZYwokR-qHGtvSkLzs", visited: false, distance: null, walkTime: null, avatar: '/avatars/Category=Donut.svg' },
+      { name: "Chelsea Market", place_id: "ChIJw2lMFL9ZwokRosAtly52YX4", visited: false, distance: null, walkTime: null, avatar: '/avatars/Category=Food_market.svg' },
+      { name: "Eataly NYC Downtown", place_id: "ChIJvx7i_BlawokRidb5WfdvqRM", visited: false, distance: null, walkTime: null, avatar: '/avatars/Category=French.svg' },
+      { name: "La Parisienne", place_id: "ChIJt1KQKxhawokRujL-AUeoW-Y", visited: false, distance: null, walkTime: null, avatar: '/avatars/Category=Museum.svg' },
     ],
-    fetchedStoreDetails:false,
+    fetchedStoreDetails: false,
+    unvisitedMarkers: [],
   }),
 
   actions: {
-    setMap3D(mapInstance) {
-      this.map3D = mapInstance;
-    },
-
-    async fetchCurrentLocation() {
-      const defaultLocation = {
-        lat: 40.7447021,
-        lng: -74.0027009,
-        alt: 0,
-      };
-
-      if (navigator.geolocation) {
-        return new Promise((resolve) => {
-          navigator.geolocation.getCurrentPosition(
-            (position) => {
-              const { latitude, longitude } = position.coords;
-              this.currentLocation = {
-                lat: latitude,
-                lng: longitude,
-                alt: 0,
-              };
-              resolve(this.currentLocation);
-            },
-            (error) => {
-              console.warn("Error fetching current location:", error.message);
-              this.currentLocation = defaultLocation;
-              resolve(this.currentLocation);
-            }
-          );
-        });
-      } else {
-        console.warn("Geolocation is not supported by this browser.");
-        this.currentLocation = defaultLocation;
-        return defaultLocation;
-      }
-    },
-
-    addMarker(marker) {
-      this.markers.push(marker);
-    },
-
-    clearMarkers() {
-      this.markers = [];
-    },
-
     async fetchStoreDetails(map) {
       if (!google || !google.maps || !google.maps.places) {
         console.error("Google Maps JavaScript API is not loaded properly.");
@@ -108,7 +62,6 @@ export const useHuntStore = defineStore("store", {
       try {
         const updatedStores = await Promise.all(promises);
         this.huntStores = updatedStores;
-        await this.updateStoreDistances();
         console.log("Store details fetched successfully:", this.huntStores);
         this.fetchedStoreDetails = true;
       } catch (error) {
@@ -116,16 +69,19 @@ export const useHuntStore = defineStore("store", {
       }
     },
 
-    async updateStoreDistances() {
-      if (!this.currentLocation) return;
-      const origins = [`${this.currentLocation.lat},${this.currentLocation.lng}`];
+    async updateStoreDistances(currentLocation) {
+      if (!currentLocation) {
+        console.error("Current location is not available.");
+        return;
+      }
+      const origins = [`${currentLocation.lat},${currentLocation.lng}`];
       const destinations = this.huntStores.filter((store) => !store.visited).map((store) => `${store.lat},${store.lng}`);
       if (destinations.length === 0) return;
 
       const service = new google.maps.DistanceMatrixService();
       return new Promise((resolve, rejects) => {
-        console.log("Origins:", origins);
-        console.log("Destinations:", destinations);
+        //console.log("Origins:", origins);
+        //console.log("Destinations:", destinations);
 
         service.getDistanceMatrix({
           origins,
@@ -134,8 +90,8 @@ export const useHuntStore = defineStore("store", {
           unitSystem: google.maps.UnitSystem.METRIC,
         },
           (response, status) => {
-            console.log("Distance Matrix Response:", response);
-            console.log("Status:", status);
+            //console.log("Distance Matrix Response:", response);
+            //console.log("Status:", status);
 
             if (status === google.maps.DistanceMatrixStatus.OK) {
               const results = response.rows[0].elements;
@@ -159,6 +115,28 @@ export const useHuntStore = defineStore("store", {
           }
         )
       })
-    }
+    },
+
+    initializeUnvisitedMarkers() {
+      this.unvisitedMarkers = this.huntStores
+        .filter((store) => !store.visited)
+        .map((store) => ({
+          id:store.place_id,
+          position: { lat: store.lat, lng: store.lng },
+          label: store.name,
+          avatar: store.avatar,
+        }));
+    },
+
+    markStoreAsVisited(storeId) {
+      const store = this.huntStores.find((s) => s.id === storeId);
+      if (store && !store.visited) {
+        store.visited = true;
+
+        const mapStore = useMapStore();
+        mapStore.removeMarker(storeId);
+      }
+    },
   },
+
 });

@@ -5,7 +5,7 @@ import RegisterCard from '@/components/RegisterCard.vue'
 import GeneralCard from '@/components/GeneralCard.vue';
 import { computed } from 'vue';
 import { useEventStore } from '@/stores/eventStore';
-import LocationNameCard from '@/components/LocationNameCard.vue';
+import LocationNameCard from '@/components/DestinationCard.vue';
 import DistanceCard from '@/components/DistanceCard.vue';
 import { useRouter } from 'vue-router';
 import { useHuntStore } from "@/stores/huntStore";
@@ -53,8 +53,8 @@ function goToAchieved(){
     <div class="hunt-info">
       <div v-if="isEnrolled">
         <div class="eventCard">
-          <GeneralCard title="To Do" if-magnify=true :magnify-action=goToTodo :avatar-list="todoAvatarList"/>
-          <GeneralCard title="Achieved" if-magnify=false :magnify-action=goToAchieved :avatar-list="achievedAvatarList"/>
+          <GeneralCard title="To Do" :if-magnify=true :magnify-action=goToTodo :avatar-list="todoAvatarList"/>
+          <GeneralCard title="Achieved" :if-magnify=false :magnify-action=goToAchieved :avatar-list="achievedAvatarList"/>
         </div>
       </div>
       <div v-else>
