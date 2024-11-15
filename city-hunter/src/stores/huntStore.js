@@ -4,11 +4,16 @@ import { useMapStore } from "./mapStore";
 export const useHuntStore = defineStore("store", {
   state: () => ({
     huntStores: [
-      { name: "Dominique Ansel Bakery", place_id: "ChIJP0KOWoxZwokRmvPiQAIaH1A", visited: false, distance: null, walkTime: null, avatar: '/avatars/Category=Burger.svg' },
-      { name: "The Metropolitan Museum of Art", place_id: "ChIJb8Jg9pZYwokR-qHGtvSkLzs", visited: false, distance: null, walkTime: null, avatar: '/avatars/Category=Donut.svg' },
-      { name: "Chelsea Market", place_id: "ChIJw2lMFL9ZwokRosAtly52YX4", visited: false, distance: null, walkTime: null, avatar: '/avatars/Category=Food_market.svg' },
-      { name: "Eataly NYC Downtown", place_id: "ChIJvx7i_BlawokRidb5WfdvqRM", visited: false, distance: null, walkTime: null, avatar: '/avatars/Category=French.svg' },
-      { name: "La Parisienne", place_id: "ChIJt1KQKxhawokRujL-AUeoW-Y", visited: false, distance: null, walkTime: null, avatar: '/avatars/Category=Museum.svg' },
+      { name: "Dominique Ansel Bakery", place_id: "ChIJpbQyiqpZwokRgs7yFKjVzxM", visited: false, distance: null, walkTime: null, avatar: '/avatars/Category=Burger.svg' },
+      { name: "The Metropolitan Museum of Art", place_id: "ChIJ0c9PLABZwokRuRKyEhjjLVs", visited: false, distance: null, walkTime: null, avatar: '/avatars/Category=Donut.svg' },
+      { name: "Chelsea Market", place_id: "ChIJJfLZyKxZwokR2E2pEczjivs", visited: false, distance: null, walkTime: null, avatar: '/avatars/Category=Food_market.svg' },
+      { name: "Eataly NYC Downtown", place_id: "ChIJi2ZrWFJYwokRlrr7eU-pfCU", visited: false, distance: null, walkTime: null, avatar: '/avatars/Category=French.svg' },
+      
+      { name: "La Parisienne", place_id: "ChIJ_4N-dlVYwokRK-86g-kUS0Y", visited: false, distance: null, walkTime: null, avatar: '/avatars/Category=Museum.svg' },
+      { name: "La Parisienne", place_id: "ChIJfZ6f2lRYwokRpIzsliYmj9c", visited: false, distance: null, walkTime: null, avatar: '/avatars/Category=Museum.svg' },
+      { name: "La Parisienne", place_id: "ChIJ4Wb8klRYwokRmLEtFnkgy6I", visited: false, distance: null, walkTime: null, avatar: '/avatars/Category=Museum.svg' },
+      { name: "La Parisienne", place_id: "ChIJzcJPy1VYwokRqxKyrmx7Vpg", visited: false, distance: null, walkTime: null, avatar: '/avatars/Category=French.svg' },
+      { name: "La Parisienne", place_id: "EiwzMTUgVyA0NHRoIFN0ICM1NDAyLCBOZXcgWW9yaywgTlkgMTAwMzYsIFVTQSIgGh4KFgoUChIJmSOIkFNYwokRH96iDQhS6wYSBDU0MDI", visited: false, distance: null, walkTime: null, avatar: '/avatars/Category=French.svg' },
     ],
     fetchedStoreDetails: false,
     unvisitedMarkers: [],
@@ -104,7 +109,6 @@ export const useHuntStore = defineStore("store", {
                     walkTime: result.duration ? result.duration.text : null,
                   };
                 }
-                return store;
               });
               resolve();
             }
@@ -121,15 +125,15 @@ export const useHuntStore = defineStore("store", {
       this.unvisitedMarkers = this.huntStores
         .filter((store) => !store.visited)
         .map((store) => ({
-          id:store.place_id,
+          id: store.place_id,
           position: { lat: store.lat, lng: store.lng },
           label: store.name,
           avatar: store.avatar,
         }));
     },
 
-    markStoreAsVisited(storeId) {
-      const store = this.huntStores.find((s) => s.id === storeId);
+    visitStore(storeId) {
+      const store = this.huntStores.get(storeId);
       if (store && !store.visited) {
         store.visited = true;
 

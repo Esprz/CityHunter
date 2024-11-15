@@ -28,8 +28,8 @@ export const useMapStore = defineStore("mapStore", {
     actions: {
         async fetchCurrentLocation() {
             const defaultLocation = {
-                lat: 40.7447021,
-                lng: -74.0027009,
+                lat: 40.7580,
+                lng: -73.9855,
                 alt: 0,
             };
 
@@ -90,14 +90,20 @@ export const useMapStore = defineStore("mapStore", {
             const templateForSvg = document.createElement('template');
             templateForSvg.content.append(pinSvg);
 
-
+            
             const currentMarker = new Marker3DElement({
-                position: this.currentLocation,
+                position: { 
+                    lat: this.currentLocation.lat, 
+                    lng: this.currentLocation.lng, 
+                    altitude: 200 
+                },
+                altitudeMode: 'RELATIVE_TO_GROUND',
                 label: "You are here",
             });
 
             currentMarker.append(templateForSvg);
             this.map3D.append(currentMarker);
+            console.log(currentMarker);
         },
 
         async loadSvgInline(url) {
@@ -125,7 +131,7 @@ export const useMapStore = defineStore("mapStore", {
 
         async addMarker({ id, position, label, avatar }) {
             if (!this.map3D) return;
-            const { Marker3DElement } = await google.maps.importLibrary("maps3d");
+            const { Marker3DElement, Marker3DInteractiveElement } = await google.maps.importLibrary("maps3d");
 
             const pinSvg = await this.loadSvgInline(avatar);
             if (!pinSvg) {
@@ -136,9 +142,10 @@ export const useMapStore = defineStore("mapStore", {
             //pinSvg.setAttribute("width", "64px");
             //pinSvg.setAttribute("height", "64px");
 
-            const marker = new Marker3DElement({
-                position: position,
-                label: label,
+            const marker = new Marker3DInteractiveElement({
+                position: { lat: position.lat, lng: position.lng, altitude: 50 },
+                altitudeMode: 'RELATIVE_TO_GROUND',
+                //label: label,
             });
 
             const templateForSvg = document.createElement("template");
@@ -147,6 +154,7 @@ export const useMapStore = defineStore("mapStore", {
 
             this.map3D.append(marker);
             this.markersMap.set(id, marker);
+            //console.log(id);
         },
 
         removeMarker(id) {
