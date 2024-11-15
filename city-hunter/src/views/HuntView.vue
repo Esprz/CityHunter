@@ -13,9 +13,11 @@ import { useRouter } from 'vue-router';
 import { useHuntStore } from "@/stores/huntStore";
 import { useMapUIStore } from "@/stores/mapUIStore";
 import DescriptionCard from "@/components/DescriptionCard.vue";
+import { useMapStore } from "@/stores/mapStore";
 const mapUIStore = useMapUIStore();
 const eventStore = useEventStore();
 const huntStore = useHuntStore();
+const mapStore = useMapStore();
 
 const isEnrolled = computed(() => eventStore.isEnrolled);
 
@@ -23,14 +25,14 @@ const router = useRouter();
 
 
 const todoAvatarList = computed(() =>
-  Array.from(huntStore.huntStores.values())
+  huntStore.huntStores
     .filter(store => !store.visited)
     .map(store => ({
       avatar: store.avatar,
     }))
 );
 const achievedAvatarList = computed(() =>
-  Array.from(huntStore.huntStores.values())
+  huntStore.huntStores
     .filter(store => store.visited)
     .map(store => ({
       avatar: store.avatar,
@@ -68,10 +70,13 @@ const closeStoreDetails = () => {
   mapUIStore.activeDistance(huntStore.huntStores[0].distance, huntStore.huntStores[0].walkTime);
   if (isEnrolled.value) {
     mapUIStore.activeDestination(huntStore.huntStores[0].name);
+    //mapStore.polyline.remove();
+    //mapStore.fitBounds();
   }
   else {
     mapUIStore.inactiveDestination();
   }
+
   console.log('close');
 };
 
@@ -107,7 +112,7 @@ const showNavbar = computed(() => mapUIStore.showNavBar);
       </div>
     </div>
 
-    <vue-bottom-sheet ref="storeDetails" @closed="closeStoreDetails">
+    <vue-bottom-sheet ref="storeDetails" :overlay="false" @closed="closeStoreDetails">
       <div class="store-details">
         <DescriptionCard />
       </div>

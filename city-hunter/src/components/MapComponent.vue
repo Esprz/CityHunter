@@ -28,12 +28,10 @@ async function renderMarkers() {
         marker.addEventListener('gmp-click', (event) => {
           // TODO: Do some work here. `event.position` can be used to get coordinates of the
           // click. `event.target.position` can be used to get marker's position.
-
           mapUIStore.activeStoreDetails(store);
           mapUIStore.inactiveDistance();
           mapUIStore.activeDestination(store.name);
-
-
+          mapStore.destination = event.position;
         });
       }
     })
@@ -42,40 +40,7 @@ async function renderMarkers() {
   mapStore.markersRendered = true;
 }
 
-// Fit bounds 
-function fitBounds() {
-  if (!mapStore.map3D) return;
 
-  const bounds = {
-    north: -Infinity,
-    south: Infinity,
-    east: -Infinity,
-    west: Infinity,
-  };
-
-  [...huntStore.huntStores,mapStore.currentLocation].map((store) => {
-    if (!store.visited) {
-      bounds.north = Math.max(bounds.north, store.lat);
-      bounds.south = Math.min(bounds.south, store.lat);
-      bounds.east = Math.max(bounds.east, store.lng);
-      bounds.west = Math.min(bounds.west, store.lng);
-    }
-  })
-
-  const center = {
-    lat: (bounds.north + bounds.south) / 2,
-    lng: (bounds.east + bounds.west) / 2,
-    altitude: 0
-  };
-
-  const latRange = bounds.north - bounds.south;
-  const lngRange = bounds.east - bounds.west;
-  const maxRange = Math.max(latRange, lngRange) * 350000; // Adjust scale factor
-
-  // Adjust Map3DElement properties
-  mapStore.map3D.center = center;
-  mapStore.map3D.range = maxRange;
-}
 
 onMounted(async () => {
   const container = document.querySelector(".map-container");
@@ -88,7 +53,7 @@ onMounted(async () => {
   else {
     mapStore.renderMap(container);
   }
-  
+
   //console.log(document.querySelectorAll('gmp-marker-3d'))
 
   if (!huntStore.fetchedStoreDetails)
@@ -96,12 +61,12 @@ onMounted(async () => {
   //console.log(document.querySelectorAll('gmp-marker-3d'))
   await huntStore.updateStoreDistances(mapStore.currentLocation);
   //console.log(document.querySelectorAll('gmp-marker-3d'))
-  
+
   if (!mapStore.markersRendered)
     await renderMarkers();
 
   //console.log(document.querySelectorAll('gmp-marker-3d'))
-  fitBounds();
+  mapStore.fitBounds();
 });
 
 </script>

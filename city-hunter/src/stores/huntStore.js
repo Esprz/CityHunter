@@ -1,19 +1,18 @@
 import { defineStore } from "pinia";
-import { useMapStore } from "./mapStore";
 
 export const useHuntStore = defineStore("store", {
   state: () => ({
     huntStores: [
-      { name: "Dominique Ansel Bakery", place_id: "ChIJpbQyiqpZwokRgs7yFKjVzxM", visited: false, distance: null, walkTime: null, avatar: '/avatars/Category=Burger.svg' },
-      { name: "The Metropolitan Museum of Art", place_id: "ChIJ0c9PLABZwokRuRKyEhjjLVs", visited: false, distance: null, walkTime: null, avatar: '/avatars/Category=Donut.svg' },
-      { name: "Chelsea Market", place_id: "ChIJJfLZyKxZwokR2E2pEczjivs", visited: false, distance: null, walkTime: null, avatar: '/avatars/Category=Food_market.svg' },
-      { name: "Eataly NYC Downtown", place_id: "ChIJi2ZrWFJYwokRlrr7eU-pfCU", visited: false, distance: null, walkTime: null, avatar: '/avatars/Category=French.svg' },
-      
-      { name: "La Parisienne", place_id: "ChIJ_4N-dlVYwokRK-86g-kUS0Y", visited: false, distance: null, walkTime: null, avatar: '/avatars/Category=Museum.svg' },
-      { name: "La Parisienne", place_id: "ChIJfZ6f2lRYwokRpIzsliYmj9c", visited: false, distance: null, walkTime: null, avatar: '/avatars/Category=Museum.svg' },
-      { name: "La Parisienne", place_id: "ChIJ4Wb8klRYwokRmLEtFnkgy6I", visited: false, distance: null, walkTime: null, avatar: '/avatars/Category=Museum.svg' },
-      { name: "La Parisienne", place_id: "ChIJzcJPy1VYwokRqxKyrmx7Vpg", visited: false, distance: null, walkTime: null, avatar: '/avatars/Category=French.svg' },
-      { name: "La Parisienne", place_id: "EiwzMTUgVyA0NHRoIFN0ICM1NDAyLCBOZXcgWW9yaywgTlkgMTAwMzYsIFVTQSIgGh4KFgoUChIJmSOIkFNYwokRH96iDQhS6wYSBDU0MDI", visited: false, distance: null, walkTime: null, avatar: '/avatars/Category=French.svg' },
+      { name: "Dominique Ansel Bakery", place_id: "ChIJpbQyiqpZwokRgs7yFKjVzxM", visited: false, distance: null, walkTime: null, avatar: '/avatars/Category=Burger.svg',description:"111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111" },
+      { name: "The Metropolitan Museum of Art", place_id: "ChIJ0c9PLABZwokRuRKyEhjjLVs", visited: false, distance: null, walkTime: null, avatar: '/avatars/Category=Donut.svg',description:"111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111" },
+      { name: "Chelsea Market", place_id: "ChIJJfLZyKxZwokR2E2pEczjivs", visited: false, distance: null, walkTime: null, avatar: '/avatars/Category=Food_market.svg',description:"111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111" },
+      { name: "Eataly NYC Downtown", place_id: "ChIJi2ZrWFJYwokRlrr7eU-pfCU", visited: false, distance: null, walkTime: null, avatar: '/avatars/Category=French.svg',description:"111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111" },
+
+      { name: "La Parisienne", place_id: "ChIJ_4N-dlVYwokRK-86g-kUS0Y", visited: false, distance: null, walkTime: null, avatar: '/avatars/Category=Museum.svg',description:"111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111" },
+      { name: "La Parisienne", place_id: "ChIJfZ6f2lRYwokRpIzsliYmj9c", visited: false, distance: null, walkTime: null, avatar: '/avatars/Category=Museum.svg',description:"111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111" },
+      { name: "La Parisienne", place_id: "ChIJ4Wb8klRYwokRmLEtFnkgy6I", visited: false, distance: null, walkTime: null, avatar: '/avatars/Category=Museum.svg',description:"111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111" },
+      { name: "La Parisienne", place_id: "ChIJzcJPy1VYwokRqxKyrmx7Vpg", visited: false, distance: null, walkTime: null, avatar: '/avatars/Category=French.svg',description:"111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111" },
+      { name: "La Parisienne", place_id: "EiwzMTUgVyA0NHRoIFN0ICM1NDAyLCBOZXcgWW9yaywgTlkgMTAwMzYsIFVTQSIgGh4KFgoUChIJmSOIkFNYwokRH96iDQhS6wYSBDU0MDI", visited: false, distance: null, walkTime: null, avatar: '/avatars/Category=French.svg',description:"111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111" },
     ],
     fetchedStoreDetails: false,
     unvisitedMarkers: [],
