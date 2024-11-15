@@ -20,6 +20,7 @@
   --color2:#FF7200;
   --color3:rgb(255,220,191);
   --color4:rgb(255,178,115);
+  --color-text:#602B00;
 
 }
 
@@ -108,4 +109,10 @@ p{
 /* -------------------------styling for bottom sheet ----------------------------*/
 .bottom-sheet__content{
   max-height: 50vh!important;
+  width: 100vw;
+}
+.bottom-sheet__main{
+  touch-action: pan-y;
+  overflow-wrap: break-word;
+
 }
