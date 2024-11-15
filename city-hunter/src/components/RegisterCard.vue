@@ -1,17 +1,31 @@
 <script setup>
 import GeneralCard from './GeneralCard.vue';
-import { useEventStore } from '@/stores/eventStore';
-const eventStore = useEventStore();
-const enrollEvent = (event) => eventStore.enroll(event);
 
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
+
 import { useHuntStore } from "@/stores/huntStore";
-const huntStore = useHuntStore();
+import { useEventStore } from '@/stores/eventStore';
+import { useMapUIStore } from '@/stores/mapUIStore';
+
 const router = useRouter();
+
+const eventStore = useEventStore();
+const mapUIStore = useMapUIStore();
+const huntStore = useHuntStore();
+
+const enrollEvent = (event) => {
+    eventStore.enroll(event);
+    const nextDest = huntStore.huntStores[0];
+    mapUIStore.activeDestination(nextDest.name);
+    mapUIStore.activeDistance(nextDest.distance, nextDest.walkTime);
+};
+
+
 function goToTodo() {
     router.push('/todo');
 }
+
 const avatarList = computed(() =>
     huntStore.huntStores
         .filter(store => !store.visited)
@@ -24,7 +38,8 @@ const avatarList = computed(() =>
 
 <template>
     <div class="register-card">
-        <GeneralCard title="Today's Hunting Challenge" :if-magnify=true :magnify-action=goToTodo :avatar-list="avatarList" />
+        <GeneralCard title="Today's Hunting Challenge" :if-magnify=true :magnify-action=goToTodo
+            :avatar-list="avatarList" />
         <button class="register-button" @click=enrollEvent>
             <p>I'm ready to start</p>
         </button>

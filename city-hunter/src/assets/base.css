@@ -104,3 +104,8 @@ p{
   height: 10vh;
   background-color: var(--color-background);
 }
+
+/* -------------------------styling for bottom sheet ----------------------------*/
+.bottom-sheet__content{
+  max-height: 50vh!important;
+}

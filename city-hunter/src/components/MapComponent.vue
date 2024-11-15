@@ -3,7 +3,9 @@ import { onMounted } from "vue";
 import { useHuntStore } from "../stores/huntStore";
 import { useMapStore } from "../stores/mapStore";
 import { loadGoogleMapsAPI } from "@/utils/loadGoogleMapsAPI";
+import { useMapUIStore } from "@/stores/mapUIStore";
 
+const mapUIStore = useMapUIStore();
 const huntStore = useHuntStore();
 const mapStore = useMapStore();
 
@@ -18,6 +20,20 @@ async function renderMarkers() {
           position: { lat: store.lat, lng: store.lng },
           label: store.name,
           avatar: store.avatar,
+        });
+
+        const marker = mapStore.markersMap.get(store.place_id);
+        //console.log(store.place_id);
+        //console.log(mapStore.markersMap.get(store.place_id));
+        marker.addEventListener('gmp-click', (event) => {
+          // TODO: Do some work here. `event.position` can be used to get coordinates of the
+          // click. `event.target.position` can be used to get marker's position.
+
+          mapUIStore.activeStoreDetails(store);
+          mapUIStore.inactiveDistance();
+          mapUIStore.activeDestination(store.name);
+
+
         });
       }
     })
@@ -37,7 +53,7 @@ function fitBounds() {
     west: Infinity,
   };
 
-  huntStore.huntStores.map((store) => {
+  [...huntStore.huntStores,mapStore.currentLocation].map((store) => {
     if (!store.visited) {
       bounds.north = Math.max(bounds.north, store.lat);
       bounds.south = Math.min(bounds.south, store.lat);
@@ -54,11 +70,11 @@ function fitBounds() {
 
   const latRange = bounds.north - bounds.south;
   const lngRange = bounds.east - bounds.west;
-  const maxRange = Math.max(latRange, lngRange) * 200000; // Adjust scale factor
+  const maxRange = Math.max(latRange, lngRange) * 350000; // Adjust scale factor
 
   // Adjust Map3DElement properties
   mapStore.map3D.center = center;
-  mapStore.map3D.range = maxRange; 
+  mapStore.map3D.range = maxRange;
 }
 
 onMounted(async () => {
@@ -72,14 +88,19 @@ onMounted(async () => {
   else {
     mapStore.renderMap(container);
   }
+  
+  //console.log(document.querySelectorAll('gmp-marker-3d'))
 
   if (!huntStore.fetchedStoreDetails)
     await huntStore.fetchStoreDetails(mapStore.map3D);
-
+  //console.log(document.querySelectorAll('gmp-marker-3d'))
   await huntStore.updateStoreDistances(mapStore.currentLocation);
-
+  //console.log(document.querySelectorAll('gmp-marker-3d'))
+  
   if (!mapStore.markersRendered)
     await renderMarkers();
+
+  //console.log(document.querySelectorAll('gmp-marker-3d'))
   fitBounds();
 });
 
