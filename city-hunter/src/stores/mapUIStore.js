@@ -18,6 +18,12 @@ export const useMapUIStore = defineStore("mapUI", {
 
         showDirection:false,
 
+        showArrivalTask:false,
+        showOneThirdCard:false,
+        showCompleteCard:false,
+
+        showTodoCard:true,
+
 
 
     }),

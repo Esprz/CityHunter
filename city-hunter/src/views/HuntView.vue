@@ -14,6 +14,8 @@ import { useHuntStore } from "@/stores/huntStore";
 import { useMapUIStore } from "@/stores/mapUIStore";
 import DescriptionCard from "@/components/DescriptionCard.vue";
 import { useMapStore } from "@/stores/mapStore";
+import GeneralRewardCard from "@/components/GeneralRewardCard.vue";
+import GeneralButton from '@/components/GeneralButton.vue';
 const mapUIStore = useMapUIStore();
 const eventStore = useEventStore();
 const huntStore = useHuntStore();
@@ -22,6 +24,24 @@ const mapStore = useMapStore();
 const isEnrolled = computed(() => eventStore.isEnrolled);
 
 const router = useRouter();
+
+const task = [
+  {
+    subtext: "You are here!",
+    text: "Take a photo to confirm your arrival",
+    buttonText: "Take photo",
+    secButtonText: "Upload",
+    img: "/rewards/take_photo.svg"
+  },
+  {
+    subtext: "You are here!",
+    text: "Take a photo to confirm your arrival",
+    buttonText: "Take photo",
+    secButtonText: "Upload",
+    img: "/rewards/stars.svg"
+  },
+
+]
 
 
 const todoAvatarList = computed(() =>
@@ -82,6 +102,8 @@ const closeStoreDetails = () => {
 
 const showNavbar = computed(() => mapUIStore.showNavBar);
 
+//const showTask = ref(true); 
+const showReward = ref(false);
 
 
 </script>
@@ -99,7 +121,7 @@ const showNavbar = computed(() => mapUIStore.showNavBar);
     </div>
 
 
-    <div class="hunt-info">
+    <div class="hunt-info" v-if="mapUIStore.showTodoCard">
       <div v-if="isEnrolled">
         <div class="eventCard">
           <GeneralCard title="To Do" :if-magnify=true :magnify-action=goToTodo :avatar-list="todoAvatarList" />
@@ -120,7 +142,42 @@ const showNavbar = computed(() => mapUIStore.showNavBar);
 
     <NavigationBar v-if="showNavbar" class="navigation-bar" />
 
+    <v-dialog v-model="mapUIStore.showArrivalTask" width="auto" transition="dialog-bottom-transition">
+      <v-card class="v-card-style">
+        <GeneralRewardCard :text="task[0].text" :subtext="task[0].subtext" :img="task[0].img"
+          :button-text="task[0].buttonText" :sec-button-text="task[0].secButtonText" />
+      </v-card>
+    </v-dialog>
+
+
+    <v-dialog v-model="mapUIStore.showOneThirdCard" width="auto" transition="dialog-bottom-transition">
+      <v-card class="v-card-style">
+        <div class="general-reward-card">
+          <img src="/rewards/thumb_color.svg" />
+          <p> Great job! Keep going~</p>
+          <h2> You're 1/3 of the way through your hunt!</h2>
+          <GeneralButton text="Next stop" :click-event=null />
+        </div>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="mapUIStore.showCompleteCard" width="auto" transition="dialog-bottom-transition">
+      <v-card class="v-card-style">
+        <div class="general-reward-card">
+          <img src="/rewards/ace_hunter.svg" />
+          <p> Wow, congratulations!</p>
+          <h2> You've outpaced 80% of participants!</h2>
+          <p>Time</p>
+          <h3>2:30:46</h3>
+          <p>Your Footsteps</p>
+          <h3>Golden Backery</h3>
+          <GeneralButton text="Get my reward" :click-event=null />
+        </div>
+      </v-card>
+    </v-dialog>
+
   </div>
+
 </template>
 
 
@@ -181,5 +238,44 @@ const showNavbar = computed(() => mapUIStore.showNavBar);
   display: flex;
   justify-content: space-between;
   gap: 10px;
+}
+
+.general-reward-card {
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  gap: 10px;
+  justify-content: space-evenly;
+  text-align: center;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.v-card-style {
+  max-width: 320px;
+  border-radius: 20px !important;
+
+  GeneralButton {
+    width: 100%;
+  }
+
+  p {
+    color: gray;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    color: var(--color-text);
+  }
+
+  img {
+    width: 70%;
+    align-self: center;
+  }
 }
 </style>
