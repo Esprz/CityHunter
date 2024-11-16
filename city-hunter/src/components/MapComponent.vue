@@ -19,20 +19,27 @@ async function renderMarkers() {
           id: store.place_id,
           position: { lat: store.lat, lng: store.lng },
           label: store.name,
-          avatar: store.avatar,
+          avatar: store.frameAvatar,
         });
 
         const marker = mapStore.markersMap.get(store.place_id);
         //console.log(store.place_id);
         //console.log(mapStore.markersMap.get(store.place_id));
-        marker.addEventListener('gmp-click', (event) => {
-          // TODO: Do some work here. `event.position` can be used to get coordinates of the
-          // click. `event.target.position` can be used to get marker's position.
-          mapUIStore.activeStoreDetails(store);
-          mapUIStore.inactiveDistance();
-          mapUIStore.activeDestination(store.name);
-          mapStore.destination = event.position;
-        });
+        if (!marker.hasListener)
+          marker.addEventListener('gmp-click', (event) => {
+            // TODO: Do some work here. `event.position` can be used to get coordinates of the
+            // click. `event.target.position` can be used to get marker's position.
+            mapUIStore.activeStoreDetails(store);
+            mapUIStore.inactiveDistance();
+            mapUIStore.activeDestination(store.name);
+            mapStore.destination = event.position;
+            mapStore.map3D.center = {
+              lat:event.position.lat,
+              lng:event.position.lng,
+              altitude:10
+            }
+            mapStore.map3D.range /=5;
+          });
       }
     })
   );
@@ -53,6 +60,7 @@ onMounted(async () => {
   else {
     mapStore.renderMap(container);
   }
+
 
   //console.log(document.querySelectorAll('gmp-marker-3d'))
 

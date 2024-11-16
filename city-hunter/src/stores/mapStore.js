@@ -1,10 +1,13 @@
 import { defineStore } from "pinia";
 import { useHuntStore } from "./huntStore";
+import { useMapUIStore } from "./mapUIStore";
 const huntStore = useHuntStore();
+const mapUIStore = useMapUIStore();
 export const useMapStore = defineStore("mapStore", {
     state: () => ({
         map3D: null,
         currentLocation: null,
+        currentLocationMarker: null,
         markersMap: new Map(),
         svgCache: new Map(),
         markersRendered: false,
@@ -79,7 +82,7 @@ export const useMapStore = defineStore("mapStore", {
 
 
             this.polyline = new Polyline3DElement({
-                strokeColor: 'rgba(255,178,115,0.9)',
+                strokeColor: 'rgba(255,178,115,0.7)',
                 strokeWidth: 200,
                 altitudeMode: AltitudeMode.RELATIVE_TO_MESH,
                 extruded: true,
@@ -96,8 +99,8 @@ export const useMapStore = defineStore("mapStore", {
             this.polyline = polylineElement;
             */
             this.map3D.appendChild(this.polyline);
+            this.map3D.defaultLabelsDisabled = true;
             container.appendChild(this.map3D);
-
         },
 
         renderMap(container) {
@@ -169,7 +172,9 @@ export const useMapStore = defineStore("mapStore", {
             });
 
             currentMarker.append(templateForSvg);
-            this.map3D.append(currentMarker);
+            this.currentLocationMarker = currentMarker;
+            this.map3D.append(this.currentLocationMarker);
+
             //console.log(currentMarker);
         },
 
@@ -214,7 +219,6 @@ export const useMapStore = defineStore("mapStore", {
                 position: { lat: position.lat, lng: position.lng, altitude: 10 },
                 altitudeMode: AltitudeMode.RELATIVE_TO_MESH,
                 //collisionBehavior:CollisionBehavior.OPTIONAL_AND_HIDES_LOWER_PRIORITY,
-
                 //label: label,
             });
 
@@ -277,11 +281,13 @@ export const useMapStore = defineStore("mapStore", {
         },
         async calculateAndDisplayRoute(destination) {
             const directionsService = new google.maps.DirectionsService();
+            const { UnitSystem } = await google.maps.importLibrary("core")
             directionsService.route(
                 {
                     origin: this.currentLocation,
                     destination: destination,
                     travelMode: google.maps.TravelMode.WALKING,
+                    UunitSystem: UnitSystem.METRIC,
                 },
                 async (response, status) => {
                     if (status === google.maps.DirectionsStatus.OK) {
@@ -308,22 +314,63 @@ export const useMapStore = defineStore("mapStore", {
                         this.map3D.tilt = 80;
                         this.map3D.range = 50;
                         console.log('11111')
-                        /*
-                        locationArray.forEach(async (loc)=>{
+
+                        //const locationArray = this.extractLocationsFromJson(response.routes);
+                        const locationArray = response.routes[0].overview_path;
+
+                        /*locationArray.forEach(async (loc) => {
                             console.log(loc);
                             await this.map3D.flyCameraTo({
                                 endCamera: {
                                     center: {
-                                        lat: loc.lat,
-                                        lng: loc.lng,
-                                        altitude: 0,
+                                        lat: loc.lat(),
+                                        lng: loc.lng(),
+                                        altitude: 100,
                                     },
-                                    tilt: 50,
-                                    range: 50
+                                    tilt: 10,
+                                    range: 150
                                 },
-                                durationMillis: 500000
+                                durationMillis: 15000
                             });
-                        })*/
+                            
+                        });*/
+
+                        const syncCenter = () => {
+                            this.currentLocation = this.map3D.center;
+                            this.currentLocationMarker.position = {
+                                lat: this.currentLocation.lat,
+                                lng: this.currentLocation.lng,
+                                altitude: 0
+                            }
+                            this.currentLocationMarker.altitudeMode = AltitudeMode.CLAMP_TO_GROUND;
+
+                            //console.log(this.currentLocation);
+                        };
+                        this.map3D.addEventListener("gmp-centerchange", syncCenter)
+
+                        function delay(ms) {
+                            return new Promise((resolve) => setTimeout(resolve, ms));
+                        }
+                        for (const loc of locationArray) {
+                            //console.log(loc);
+                            await this.map3D.flyCameraTo({
+                                endCamera: {
+                                    center: {
+                                        lat: loc.lat(),
+                                        lng: loc.lng(),
+                                        altitude: 100,
+                                    },
+                                    tilt: 10,
+                                    range: 150,
+                                },
+                                durationMillis: 1000,
+                            });
+                            await delay(900);
+                        }
+                        this.map3D.removeEventListener("gmp-centerchange", syncCenter)
+                        mapUIStore.showArrivalTask = true;
+                        this.map3D.removeChild(this.polyline);
+
                         /*
                         this.map3D.flyCameraTo({
                             endCamera: {
@@ -339,7 +386,6 @@ export const useMapStore = defineStore("mapStore", {
                         });*/
                         //console.log('2222222')
 
-                        // 可选：动态调整地图视角跟随路线
                         //this.animateCameraAlongRoute(response.routes[0].overview_path);
                     } else {
                         console.error("Directions request failed due to", status);

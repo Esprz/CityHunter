@@ -47,7 +47,7 @@ const props = defineProps({
 .card-bottom {
     padding: 10px;
     background-color: white;
-    /*white-space: nowrap;*/
+    white-space: nowrap;
     overflow: hidden;
 }
 
