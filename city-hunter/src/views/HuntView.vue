@@ -215,7 +215,7 @@ const showReward = ref(false);
   display: flex;
   flex-direction: column;
 
-  gap: 20px;
+  gap: 10px;
 
   justify-content: space-evenly;
 

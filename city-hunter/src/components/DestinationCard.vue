@@ -1,6 +1,6 @@
 <script setup>
 import SvgIcon from '@jamescoyle/vue-icon';
-import { mdiMagnify } from '@mdi/js';
+import { mdiMapMarker } from '@mdi/js';
 import { defineProps, computed } from 'vue';
 import { useMapUIStore } from "@/stores/mapUIStore";
 const mapUIStore = useMapUIStore();
@@ -10,8 +10,8 @@ const DestinationContent = computed(() => mapUIStore.DestinationContent);
 
 <template>
     <div class="destination-container">
-        <svg-icon class="magnify" type="mdi" :path=mdiMagnify></svg-icon>
-        <p> To {{ DestinationContent }} </p>
+        <svg-icon class="magnify" type="mdi" :path=mdiMapMarker></svg-icon>
+        <p> {{ DestinationContent }} </p>
     </div>
 
 </template>
@@ -21,11 +21,18 @@ const DestinationContent = computed(() => mapUIStore.DestinationContent);
 .destination-container {
     display: flex;
     border-radius: 10px;
-    padding: 20px;
+    padding: 15px;
     gap: 10px;
     width: 100%;
     overflow: hidden;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.4);
     color: white;
+    border: 1.5px solid #F8F8F8;
+    align-items: center;
+}
+
+p {
+    font-weight: 550;
+    font-size: 18px;
 }
 </style>
