@@ -13,8 +13,10 @@ const mapUIStore = useMapUIStore();
 const mapStore = useMapStore();
 const eventStore = useEventStore();
 
-const isEnrolled = computed(()=>eventStore.isEnrolled);
+const isEnrolled = computed(() => eventStore.isEnrolled);
 const storeInfo = computed(() => mapUIStore.StoreDetailsContent);
+
+console.log(storeInfo.photos);
 
 const getDirection = async () => {
     console.log(`Navigating to ${storeInfo.name}...`);
@@ -31,9 +33,14 @@ const getDirection = async () => {
 <template>
     <div class="store-details-card">
         <h1>{{ storeInfo.name }}</h1>
-        <p>{{ storeInfo.rating || '4.3' }}</p>
-        <h3 class="description">{{ storeInfo.description }}</h3>
-        <GeneralButton v-if="isEnrolled" class="get-direction" text="Get Directions" :click-event="getDirection"/>
+        <p>{{ storeInfo.rating || '4.3' }} ★</p>
+        <h4 class="description">{{ storeInfo.description }}</h4>
+        <div class="photo-container">
+            <img v-for="(photo, index) in storeInfo.photos" :key="index"
+                :class="index < 2 ? 'full-width' : 'half-width'" :src="photo" />
+        </div>
+
+        <GeneralButton v-if="isEnrolled" class="get-direction" text="Get Directions" :click-event="getDirection" />
     </div>
 </template>
 
@@ -54,4 +61,24 @@ const getDirection = async () => {
 .description {
     width: 100%;
 }
+
+.photo-container {
+    display: flex;
+    flex-wrap: wrap; /* 允许换行 */
+    margin-top: 10px;
+    gap: 10px; /* 图片间距 */
+}
+
+.full-width {
+    width: 100%; /* 前两张图片占整行宽度 */
+    margin-bottom: 10px; /* 每张图片下面的间距 */
+    border-radius: 20px;
+}
+
+.half-width {
+    width: calc(50% - 5px); /* 每张图片占一半宽度（减去间距） */
+    border-radius: 20px;
+    margin-bottom: 10px;
+}
+
 </style>
