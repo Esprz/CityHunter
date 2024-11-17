@@ -19,7 +19,8 @@ const props = defineProps({
     background-color: var(--color2);
     border: none;
     border-radius: 50px;
-    padding: 10px;
+    padding: 8px;
     color: white;
+    width: 100%;
 }
 </style>

@@ -4,7 +4,32 @@ export const useEventStore = defineStore('event', {
   state: () => ({
     isEnrolled: false, 
     countdown: 0,
-    timer: null,
+    coupons:[
+      {
+        title:'Early Bird',
+        deal:'15% off up to US$15',
+        badge:'/rewards/early_bird.svg',
+        claimed:false,
+      },
+      {
+        title:'Next Level',
+        deal:'25% off up to US$20',
+        badge:'/rewards/next_level.svg',
+        claimed:false,
+      },
+      {
+        title:'SuperNova',
+        deal:'40% off any 2 orders',
+        badge:'/rewards/supernova.svg',
+        claimed:false,
+      },
+      {
+        title:'Ace Hunter',
+        deal:'50% off any 5 orders',
+        badge:'/rewards/ace_hunter.svg',
+        claimed:false,
+      },
+    ]
   }),
 
   getters: {
