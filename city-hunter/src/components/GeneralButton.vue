@@ -15,12 +15,4 @@ const props = defineProps({
 
 
 <style scoped>
-.general-button {
-    background-color: var(--color2);
-    border: none;
-    border-radius: 50px;
-    padding: 8px;
-    color: white;
-    width: 100%;
-}
 </style>

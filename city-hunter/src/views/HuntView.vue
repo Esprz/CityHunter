@@ -16,6 +16,8 @@ import DescriptionCard from "@/components/DescriptionCard.vue";
 import { useMapStore } from "@/stores/mapStore";
 import GeneralRewardCard from "@/components/GeneralRewardCard.vue";
 import GeneralButton from '@/components/GeneralButton.vue';
+import TakePhotoCard from "@/components/TakePhotoCard.vue";
+import OneThirdWayCard from "@/components/OneThirdWayCard.vue";
 const mapUIStore = useMapUIStore();
 const eventStore = useEventStore();
 const huntStore = useHuntStore();
@@ -24,24 +26,6 @@ const mapStore = useMapStore();
 const isEnrolled = computed(() => eventStore.isEnrolled);
 
 const router = useRouter();
-
-const task = [
-  {
-    subtext: "You are here!",
-    text: "Take a photo to confirm your arrival",
-    buttonText: "Take photo",
-    secButtonText: "Upload",
-    img: "/rewards/take_photo.svg"
-  },
-  {
-    subtext: "You are here!",
-    text: "Take a photo to confirm your arrival",
-    buttonText: "Take photo",
-    secButtonText: "Upload",
-    img: "/rewards/stars.svg"
-  },
-
-]
 
 
 const todoAvatarList = computed(() =>
@@ -71,8 +55,6 @@ const showDestination = computed(() => mapUIStore.showDestination);
 
 const showDistance = computed(() => mapUIStore.showDistance);
 
-
-const showStoreDetails = computed(() => mapUIStore.showStoreDetails);
 const storeDetails = ref(null);
 
 watch(() => mapUIStore.showStoreDetails, (newVal) => {
@@ -103,8 +85,59 @@ const closeStoreDetails = () => {
 
 const showNavbar = computed(() => mapUIStore.showNavBar);
 
-//const showTask = ref(true); 
-const showReward = ref(false);
+function calculateDistance(lat1, lng1, lat2, lng2) {
+  const R = 6371e3;
+  const φ1 = (lat1 * Math.PI) / 180;
+  const φ2 = (lat2 * Math.PI) / 180;
+  const Δφ = ((lat2 - lat1) * Math.PI) / 180;
+  const Δλ = ((lng2 - lng1) * Math.PI) / 180;
+
+  const a =
+    Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+    Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+  return R * c;
+}
+
+
+watch(
+  () => mapStore.currentLocation,
+  (newLocation) => {
+    if (!newLocation || !mapUIStore.nextStop.name) return;
+    //console.log('-------------------------')
+    const distance = calculateDistance(
+      newLocation.lat,
+      newLocation.lng,
+      mapUIStore.nextStop.lat,
+      mapUIStore.nextStop.lng
+    );
+    //console.log(`${mapUIStore.nextStop.name}:`, distance)
+
+    /*
+    if (distance < 50) {
+      store.visited = true;
+      //console.warn(`Store ${store.name} marked as visited!`);
+    }
+    huntStore.huntStores.forEach((store) => {
+      if (store.place_id == mapUIStore.nextStop.place_id) {
+        store = mapUIStore.nextStop;
+      }
+    })*/
+
+  },
+  { immediate: false }
+);
+
+watch(() => mapUIStore.nextStop, (newNextStop) => {
+  if (newNextStop.name) {
+    mapUIStore.DestinationContent = newNextStop.name;
+    mapUIStore.DistanceContent = {
+      distance: newNextStop.distance,
+      walkTime: newNextStop.walkTime
+    }
+  }
+})
 
 
 </script>
@@ -145,21 +178,13 @@ const showReward = ref(false);
 
     <v-dialog v-model="mapUIStore.showArrivalTask" width="auto" transition="dialog-bottom-transition">
       <v-card class="v-card-style">
-        <GeneralRewardCard :text="task[0].text" :subtext="task[0].subtext" :img="task[0].img"
-          :button-text="task[0].buttonText" :sec-button-text="task[0].secButtonText" />
+        <TakePhotoCard />
       </v-card>
     </v-dialog>
 
 
     <v-dialog v-model="mapUIStore.showOneThirdCard" width="auto" transition="dialog-bottom-transition">
-      <v-card class="v-card-style">
-        <div class="general-reward-card">
-          <img src="/rewards/thumb_color.svg" />
-          <p> Great job! Keep going~</p>
-          <h2> You're 1/3 of the way through your hunt!</h2>
-          <GeneralButton text="Next stop" :click-event=null />
-        </div>
-      </v-card>
+      <OneThirdWayCard />
     </v-dialog>
 
     <v-dialog v-model="mapUIStore.showCompleteCard" width="auto" transition="dialog-bottom-transition">

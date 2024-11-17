@@ -42,6 +42,8 @@ const props = defineProps({
 .full-width{
     width: 100%;
 }
-
+p{
+    color: var(--gray);
+}
 
 </style>
