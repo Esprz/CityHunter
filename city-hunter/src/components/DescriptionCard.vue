@@ -34,28 +34,33 @@ const getDirection = async () => {
     <div class="store-details-card">
         <h1>{{ storeInfo.name }}</h1>
         <p>{{ storeInfo.rating || '4.3' }} ★</p>
-        <h4 class="description">{{ storeInfo.description }}</h4>
+        <p class="description">{{ storeInfo.description }}</p>
         <div class="photo-container">
             <img v-for="(photo, index) in storeInfo.photos" :key="index"
-                :class="index < 2 ? 'full-width' : 'half-width'" :src="photo" />
+                :class="[index < 2 ? 'full-width' : 'half-width', 'photo-common']" :src="photo" />
         </div>
-
+    </div>
+    <div class="get-direction-wrapper">
         <GeneralButton v-if="isEnrolled" class="get-direction" text="Get Directions" :click-event="getDirection" />
     </div>
 </template>
 
 <style scoped>
-.get-direction {
+.get-direction-wrapper {
     position: absolute;
-    bottom: 10px;
-    width: 90%;
-    align-self: center;
+    bottom: 0;
+    padding: 15px;
+    width: 100%;
+    background-color: white;
+}
+
+.get-direction {
+    width: 100%;
 }
 
 .store-details-card {
-    width: 90vw;
-
-
+    width: 100vw;
+    padding: 20px;
 }
 
 .description {
@@ -64,21 +69,27 @@ const getDirection = async () => {
 
 .photo-container {
     display: flex;
-    flex-wrap: wrap; /* 允许换行 */
+    flex-wrap: wrap;
     margin-top: 10px;
-    gap: 10px; /* 图片间距 */
+    gap: 10px;
+}
+
+.photo-common {
+    margin-bottom: 10px;
+    border-radius: 20px;
+    object-fit: cover;
+    /* 确保图片裁剪适配容器 */
 }
 
 .full-width {
-    width: 100%; /* 前两张图片占整行宽度 */
-    margin-bottom: 10px; /* 每张图片下面的间距 */
-    border-radius: 20px;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    /* 设置宽高比例为 16:9 */
 }
 
 .half-width {
-    width: calc(50% - 5px); /* 每张图片占一半宽度（减去间距） */
-    border-radius: 20px;
-    margin-bottom: 10px;
+    width: calc(50% - 5px);
+    aspect-ratio: 1 / 1;
+    /* 设置宽高比例为 1:1 */
 }
-
 </style>

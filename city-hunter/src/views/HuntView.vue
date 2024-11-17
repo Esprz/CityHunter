@@ -184,7 +184,6 @@ const showReward = ref(false);
 
 <style scoped>
 .store-details {
-  padding: 20px;
   height: 50vh;
 }
 
