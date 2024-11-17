@@ -12,7 +12,7 @@ export const useHuntStore = defineStore("store", {
         avatar: '/avatars/bakery.svg',
         frameAvatar: '/avatars/Category=F-Bakery.svg',
         description: "Nestled in the heart of the city, Golden Bakery is a charming family-owned establishment known for its artisanal bread and pastries. Founded in 1985, this beloved local gem uses traditional recipes passed down through generations. Golden Bakery offers a warm atmosphere where the aroma of freshly baked goods welcomes customers daily.",
-        rating: "4.7",
+        rating: 4.7,
         photos: [
           "https://images.unsplash.com/photo-1547978059-2639fd612c66?q=80&w=3432&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
           "https://images.unsplash.com/photo-1495147466023-ac5c588e2e94?q=80&w=3387&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -20,8 +20,7 @@ export const useHuntStore = defineStore("store", {
           "https://images.unsplash.com/photo-1519915028121-7d3463d20b13?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
           "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?q=80&w=3286&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
           "https://images.unsplash.com/photo-1506459225024-1428097a7e18?q=80&w=2362&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-          
-        ]
+        ],
       },
       {
         name: "Sweet Berry",
@@ -31,9 +30,9 @@ export const useHuntStore = defineStore("store", {
         walkTime: null,
         avatar: '/avatars/berry.svg',
         frameAvatar: '/avatars/Category=F-Berry.svg',
-        description: "----please fill in-----store-descirption------",
-        rating: "---------please fill in---------- rating of the store: 0-5",
-        photos: []
+        description: "Sweet Berry is a delightful dessert haven offering a wide selection of fresh and flavorful treats, including signature berry parfaits and creamy smoothies. Known for its cozy ambiance and friendly service, it's the perfect spot for a refreshing indulgence.",
+        rating: 4.3,
+        photos: [],
       },
       {
         name: "Burger On Fire",
@@ -43,9 +42,9 @@ export const useHuntStore = defineStore("store", {
         walkTime: null,
         avatar: '/avatars/burger.svg',
         frameAvatar: '/avatars/Category=F-Burger.svg',
-        description: "----please fill in-----store-descirption------",
-        rating: "---------please fill in---------- rating of the store: 0-5",
-        photos: []
+        description: "Burger On Fire is a must-visit for burger enthusiasts, serving juicy patties grilled to perfection. With its bold flavors and creative toppings, this vibrant eatery transforms classic burgers into gourmet masterpieces.",
+        rating: 4.9,
+        photos: [],
       },
       {
         name: "Foodie Lounge",
@@ -55,9 +54,9 @@ export const useHuntStore = defineStore("store", {
         walkTime: null,
         avatar: '/avatars/foodie.svg',
         frameAvatar: '/avatars/Category=F-Foodie.svg',
-        description: "----please fill in-----store-descirption------",
-        rating: "---------please fill in---------- rating of the store: 0-5",
-        photos: []
+        description: "Foodie Lounge is a trendy spot for culinary adventurers, featuring a diverse menu that spans global cuisines. With its chic decor and innovative dishes, it promises a unique dining experience that delights the palate.",
+        rating: 4.7,
+        photos: [],
       },
       {
         name: "Fresh Market",
@@ -67,9 +66,9 @@ export const useHuntStore = defineStore("store", {
         walkTime: null,
         avatar: '/avatars/fresh.svg',
         frameAvatar: '/avatars/Category=F-Fresh.svg',
-        description: "----please fill in-----store-descirption------",
-        rating: "---------please fill in---------- rating of the store: 0-5",
-        photos: []
+        description: "Fresh Market is your go-to destination for organic and locally sourced produce. With its vibrant selection of fruits, vegetables, and specialty goods, it champions sustainability and wholesome living.",
+        rating: 4.8,
+        photos: [],
       },
       {
         name: "Pizza Club",
@@ -79,9 +78,9 @@ export const useHuntStore = defineStore("store", {
         walkTime: null,
         avatar: '/avatars/pizza.svg',
         frameAvatar: '/avatars/Category=F-Pizza.svg',
-        description: "----please fill in-----store-descirption------",
-        rating: "---------please fill in---------- rating of the store: 0-5",
-        photos: []
+        description: "Pizza Club is a hotspot for pizza lovers, offering a menu of handcrafted pies with fresh ingredients and bold flavors. Whether you crave classic Margherita or adventurous toppings, this cozy spot has something for everyone.",
+        rating: 4.5,
+        photos: [],
       },
       {
         name: "Tasty Ramen",
@@ -91,9 +90,9 @@ export const useHuntStore = defineStore("store", {
         walkTime: null,
         avatar: '/avatars/ramen.svg',
         frameAvatar: '/avatars/Category=F-Ramen.svg',
-        description: "----please fill in-----store-descirption------",
-        rating: "---------please fill in---------- rating of the store: 0-5",
-        photos: []
+        description: "Tasty Ramen is a warm and inviting noodle house, specializing in flavorful broths and freshly made noodles. Perfect for a comforting meal, it’s a favorite among ramen enthusiasts seeking authenticity and quality.",
+        rating: 4.6,
+        photos: [],
       },
       {
         name: "Sushi House",
@@ -103,9 +102,9 @@ export const useHuntStore = defineStore("store", {
         walkTime: null,
         avatar: '/avatars/sushi.svg',
         frameAvatar: '/avatars/Category=F-Sushi.svg',
-        description: "----please fill in-----store-descirption------",
-        rating: "---------please fill in---------- rating of the store: 0-5",
-        photos: []
+        description: "Sushi House is a premier destination for sushi lovers, known for its fresh ingredients and artistic presentation. Whether dining in or taking out, it offers a menu of traditional favorites and creative rolls.",
+        rating: 4.7,
+        photos: [],
       },
     ],
     fetchedStoreDetails: false,
@@ -204,6 +203,7 @@ export const useHuntStore = defineStore("store", {
                 }
               });
               resolve();
+              console.log("Store ditance details fetched successfully:", this.huntStores);
             }
             else {
               console.error("Failed to fetch distances:", status);
