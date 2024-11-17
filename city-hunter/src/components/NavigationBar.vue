@@ -3,14 +3,15 @@ import { ref } from 'vue';
 import SvgIcon from '@jamescoyle/vue-icon';
 import { mdiStar, mdiMapCheckOutline, mdiMagnify } from '@mdi/js';
 import { useRouter } from 'vue-router';
+import { useMapUIStore } from '@/stores/mapUIStore';
 const router = useRouter();
+const mapUIStore = useMapUIStore();
 
-const navBarItem = ref("my-hunt");
 function selectNavBarItem(item) {
-    navBarItem.value = item;
-    if (navBarItem.value === "my-hunt") {
+    mapUIStore.NavBarItem = item;
+    if (mapUIStore.NavBarItem === "my-hunt") {
         router.push('/hunt');
-    } else if (navBarItem.value === "rewards") {
+    } else if (mapUIStore.NavBarItem === "rewards") {
         router.push('/rewards');
     }
 }
@@ -19,12 +20,12 @@ function selectNavBarItem(item) {
 
 <template>
     <div class="navigate-bar-container">
-        <div class="navigate-bar-item" :class="{ active: navBarItem === 'my-hunt' }"
+        <div class="navigate-bar-item" :class="{ active: mapUIStore.NavBarItem === 'my-hunt' }"
             @click="selectNavBarItem('my-hunt')">
             <svg-icon type="mdi" :path="mdiMapCheckOutline"></svg-icon>
             <p>My Hunt</p>
         </div>
-        <div class="navigate-bar-item" :class="{ active: navBarItem === 'rewards' }"
+        <div class="navigate-bar-item" :class="{ active: mapUIStore.NavBarItem === 'rewards' }"
             @click="selectNavBarItem('rewards')">
             <svg-icon type="mdi" :path="mdiStar"></svg-icon>
             <p>Rewards</p>

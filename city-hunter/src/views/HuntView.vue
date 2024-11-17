@@ -235,13 +235,7 @@ const showReward = ref(false);
   overflow: hidden;
 }
 
-.navigation-bar {
-  position: absolute;
-  bottom: 0;
-  width: 100vw;
-  height: 8vh;
-  background-color: var(--color-background);
-}
+
 
 .eventCard {
   display: flex;

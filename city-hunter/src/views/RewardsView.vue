@@ -3,6 +3,8 @@ import SvgIcon from '@jamescoyle/vue-icon';
 import { mdiChevronDown, mdiExportVariant, mdiMagnify } from '@mdi/js';
 import { ref } from 'vue';
 import NavigationBar from '@/components/NavigationBar.vue'
+import { useMapUIStore } from "@/stores/mapUIStore";
+const mapUIStore = useMapUIStore();
 </script>
 
 <template>
@@ -11,7 +13,7 @@ import NavigationBar from '@/components/NavigationBar.vue'
             <h1>Rewards</h1>  
         </div>        
     </div>
-    <NavigationBar class="navigation-bar" />
+    <NavigationBar v-if="mapUIStore.showNavBar" class="navigation-bar" />
 </template>
 
 <style scoped>
