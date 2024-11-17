@@ -90,12 +90,13 @@ const closeStoreDetails = () => {
   mapUIStore.activeDistance(huntStore.huntStores[0].distance, huntStore.huntStores[0].walkTime);
   if (isEnrolled.value) {
     mapUIStore.activeDestination(huntStore.huntStores[0].name);
-    //mapStore.polyline.remove();
     //mapStore.fitBounds();
   }
   else {
     mapUIStore.inactiveDestination();
   }
+  mapStore.polygon.remove();
+
 
   console.log('close');
 };
@@ -125,7 +126,7 @@ const showReward = ref(false);
       <div v-if="isEnrolled">
         <div class="eventCard">
           <GeneralCard title="To Do" :if-magnify=true :magnify-action=goToTodo :avatar-list="todoAvatarList" />
-          <GeneralCard title="Achieved" :if-magnify=false :magnify-action=goToAchieved
+          <GeneralCard title="Achieved" :if-magnify=true :magnify-action=goToAchieved
             :avatar-list="achievedAvatarList" />
         </div>
       </div>
@@ -236,6 +237,7 @@ const showReward = ref(false);
 
 .eventCard {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   gap: 10px;
 }

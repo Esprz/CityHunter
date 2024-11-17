@@ -29,6 +29,7 @@ export const useMapStore = defineStore("mapStore", {
             },
         ],
         polyline: null,
+        polygon: null,
         destination: null,
     }),
     actions: {
@@ -67,7 +68,7 @@ export const useMapStore = defineStore("mapStore", {
         },
 
         async initMap(container) {
-            const { Map3DElement, Polyline3DElement, AltitudeMode } = await google.maps.importLibrary("maps3d");
+            const { Map3DElement, Polyline3DElement, Polygon3DElement, AltitudeMode } = await google.maps.importLibrary("maps3d");
 
             this.map3D = new Map3DElement({
                 center: {
@@ -88,6 +89,15 @@ export const useMapStore = defineStore("mapStore", {
                 extruded: true,
                 drawsOccludedSegments: true,
             })
+
+            this.polygon = new Polygon3DElement({
+                fillColor: 'rgba(255,178,115,0.5)',
+                strokeColor: '#FF0000', //#FF7200
+                strokeWidth: 5,
+                extruded: true,
+                altitudeMode: AltitudeMode.RELATIVE_TO_MESH,
+            })
+
             /*
 
             const polylineElement = document.createElement("gmp-polyline-3d");
@@ -99,6 +109,7 @@ export const useMapStore = defineStore("mapStore", {
             this.polyline = polylineElement;
             */
             this.map3D.appendChild(this.polyline);
+            this.map3D.appendChild(this.polygon);
             this.map3D.defaultLabelsDisabled = true;
             container.appendChild(this.map3D);
         },
@@ -281,13 +292,13 @@ export const useMapStore = defineStore("mapStore", {
         },
         async calculateAndDisplayRoute(destination) {
             const directionsService = new google.maps.DirectionsService();
-            const { UnitSystem } = await google.maps.importLibrary("core")
+            //const { UnitSystem } = await google.maps.importLibrary("core");
             directionsService.route(
                 {
                     origin: this.currentLocation,
                     destination: destination,
                     travelMode: google.maps.TravelMode.WALKING,
-                    UunitSystem: UnitSystem.METRIC,
+                    //unitSystem: UnitSystem.METRIC,
                 },
                 async (response, status) => {
                     if (status === google.maps.DirectionsStatus.OK) {
@@ -415,6 +426,63 @@ export const useMapStore = defineStore("mapStore", {
         async navigateTo(destination) {
             this.destination = destination;
             await this.calculateAndDisplayRoute(destination);
+        },
+
+        async generateBuildingCoordinates(center, shape = 'rectangle', options = {}) {
+            const {
+                size = 0.00015, 
+                rotation = 30, 
+            } = options;
+
+            const rotatePoint = (point, angle, origin) => {
+                const radians = (Math.PI / 180) * angle;
+                const cos = Math.cos(radians);
+                const sin = Math.sin(radians);
+
+                const dx = point.lat - origin.lat;
+                const dy = point.lng - origin.lng;
+
+                return {
+                    lat: origin.lat + dx * cos - dy * sin,
+                    lng: origin.lng + dx * sin + dy * cos,
+                };
+            };
+
+            if (shape === 'rectangle') {
+                const rectangle = [
+                    { lat: center.lat + size, lng: center.lng - size },
+                    { lat: center.lat + size, lng: center.lng + size },
+                    { lat: center.lat - size, lng: center.lng + size },
+                    { lat: center.lat - size, lng: center.lng - size },
+                ];
+
+                return [
+                    ...rectangle.map((point) => rotatePoint(point, rotation, center)),
+                    rotatePoint(rectangle[0], rotation, center), 
+                ];
+            }
+        },
+
+        async drawBuildingOutlineFromCenter(center, options = {}) {
+            const { shape = 'rectangle', ...rest } = options;
+
+            const coordinates = await this.generateBuildingCoordinates(center, shape, rest);
+            return this.drawBuildingOutline(coordinates, rest);
+        },
+
+        async drawBuildingOutline(coordinates, options = {}) {
+            if (!this.map3D) {
+                console.error("Map is not initialized.");
+                return;
+            }
+
+            this.polygon.outerCoordinates = coordinates.map(coord => ({
+                ...coord,
+                altitude: 5,
+            }));
+
+            this.map3D.appendChild(this.polygon);
+            console.log("Building outline drawn:", this.polygon);
         },
 
     },

@@ -34,12 +34,13 @@ async function renderMarkers() {
             mapUIStore.activeDestination(store.name);
             mapStore.destination = event.position;
             mapStore.map3D.center = {
-              lat:event.position.lat,
-              lng:event.position.lng,
-              altitude:10
+              lat: event.position.lat,
+              lng: event.position.lng,
+              altitude: 10
             }
-            mapStore.map3D.range /=5;
-          });
+            mapStore.map3D.tilt = 30;
+            mapStore.map3D.range = 300;
+            mapStore.drawBuildingOutlineFromCenter(event.position)          });
       }
     })
   );
