@@ -39,11 +39,12 @@ const todoList = computed(() =>
 </template>
 
 <style scoped>
+
+
 .todo-item {
     background-color: white;
     margin: 20px;
     padding: 13px;
     border-radius: 10px;
-
 }
 </style>
