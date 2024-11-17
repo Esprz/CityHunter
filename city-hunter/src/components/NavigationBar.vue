@@ -19,20 +19,22 @@ function selectNavBarItem(item) {
 </script>
 
 <template>
-    <div class="navigate-bar-container">
-        <div class="navigate-bar-item" :class="{ active: mapUIStore.NavBarItem === 'my-hunt' }"
-            @click="selectNavBarItem('my-hunt')">
-            <svg-icon type="mdi" :path="mdiMapCheckOutline"></svg-icon>
-            <p>My Hunt</p>
-        </div>
-        <div class="navigate-bar-item" :class="{ active: mapUIStore.NavBarItem === 'rewards' }"
-            @click="selectNavBarItem('rewards')">
-            <svg-icon type="mdi" :path="mdiStar"></svg-icon>
-            <p>Rewards</p>
+    <div>
+        <v-divider opacity="0.5"></v-divider>
+        <div class="navigate-bar-container">
+            <div class="navigate-bar-item" :class="{ active: mapUIStore.NavBarItem === 'my-hunt' }"
+                @click="selectNavBarItem('my-hunt')">
+                <svg-icon type="mdi" :path="mdiMapCheckOutline"></svg-icon>
+                <p>My Hunt</p>
+            </div>
+            <div class="navigate-bar-item" :class="{ active: mapUIStore.NavBarItem === 'rewards' }"
+                @click="selectNavBarItem('rewards')">
+                <svg-icon type="mdi" :path="mdiStar"></svg-icon>
+                <p>Rewards</p>
+            </div>
         </div>
     </div>
 </template>
-
 
 <style scoped>
 .navigate-bar-container {
@@ -54,5 +56,8 @@ function selectNavBarItem(item) {
 
 .navigate-bar-item.active {
     color: var(--color2);
+}
+v-divider{
+    color:black;
 }
 </style>
