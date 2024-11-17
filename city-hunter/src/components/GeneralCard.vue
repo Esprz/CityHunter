@@ -18,7 +18,6 @@ const props = defineProps({
             <MagnifyButton v-if="ifMagnify" @click="magnifyAction" />
         </div>
         <div class="card-bottom">
-
             <span v-for="(avatar, index) in avatarList" :key="index">
                 <img :src="avatar.avatar" class="store-avatar" />
             </span>
@@ -45,14 +44,15 @@ const props = defineProps({
 }
 
 .card-bottom {
-    padding: 10px;
+    padding: 5px 15px;
     background-color: white;
-    white-space: nowrap;
+    /*white-space: nowrap;*/
     overflow: hidden;
 }
 
 .store-avatar {
     margin: 5px;
+    margin-right: 10px;
     overflow: hidden;
 }
 </style>
