@@ -224,7 +224,7 @@ const showReward = ref(false);
 
 .hunt-info {
   position: absolute;
-  bottom: 10vh;
+  bottom: 8vh;
   width: 100%;
   height: auto;
   background-color: var(--color-background);
@@ -233,6 +233,14 @@ const showReward = ref(false);
   box-sizing: border-box;
   z-index: 10;
   overflow: hidden;
+}
+
+.navigation-bar {
+  position: absolute;
+  bottom: 0;
+  width: 100vw;
+  height: 8vh;
+  background-color: var(--color-background);
 }
 
 .eventCard {

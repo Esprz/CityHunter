@@ -12,21 +12,20 @@
 
   --section-gap: 160px;
 
-  --tutorial-card-background:rgba(50, 200, 255, 0.8);
-  --tutorial-card-title:black;
-  --tutorial-card-text:white;
-  --tutorial-card-icon:white;
-  --gray:gray;
-  --color2:#FF7200;
-  --color3:rgb(255,220,191);
-  --color4:rgb(255,178,115);
-  --color-text:#602B00;
+  --tutorial-card-background: rgba(50, 200, 255, 0.8);
+  --tutorial-card-title: black;
+  --tutorial-card-text: white;
+  --tutorial-card-icon: white;
+  --gray: gray;
+  --color2: #FF7200;
+  --color3: rgb(255, 220, 191);
+  --color4: rgb(255, 178, 115);
+  --color-text: #602B00;
 
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-  }
+  :root {}
 }
 
 *,
@@ -45,31 +44,39 @@ body {
     color 0.5s,
     background-color 0.5s;
   line-height: 1.6;
-  font-family: 'Poppins',Roboto;
+  font-family: 'Poppins', Roboto;
   font-size: 15px;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-h1,h2,h3,h4{
+
+h1,
+h2,
+h3,
+h4 {
   font-family: 'Poppins';
 }
-h1,h2,h3{
+
+h1,
+h2,
+h3 {
   font-weight: 600;
 }
 
-p{
+p {
   font-family: Roboto;
   font-size: 16px;
 }
 
-.page-container{
+.page-container {
   height: 100vh;
   width: 100vw;
   padding: 20px;
-  background: linear-gradient(to bottom,var(--color3), white);
+  background: linear-gradient(to bottom, var(--color3), white);
 }
-.page-header{
+
+.page-header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -98,21 +105,17 @@ p{
   color: var(--tutorial-card-icon);
 }
 
-.navigation-bar {
-  position: absolute;
-  bottom: 0;
-  width: 100vw;
-  height: 10vh;
-  background-color: var(--color-background);
-}
+
 
 /* -------------------------styling for bottom sheet ----------------------------*/
-.bottom-sheet__content{
-  max-height: 50vh!important;
+.bottom-sheet__content {
+  max-height: 50vh !important;
   width: 100vw;
 }
-.bottom-sheet__main{
+
+.bottom-sheet__main {
   touch-action: pan-y;
   overflow-wrap: break-word;
 
 }
+
