@@ -41,19 +41,28 @@ function handlePhotoSelection(event) {
     if (file) {
         console.log('File selected:', file);
     }
-    let if_setNextStop = false;
+
+    console.log('old nextstop',mapUIStore.nextStop);
+
+
     for (let i = 0; i < huntStore.huntStores.length; i++) {
         const store = huntStore.huntStores[i];
-        if (store.place_id === mapUIStore.nextStop) {
+        if (store.place_id === mapUIStore.nextStop.place_id) {
             huntStore.huntStores[i].visited = true;
             mapStore.removeMarker(store.place_id);
-        }
-        if (!if_setNextStop && !store.visited) {
+            break;
+        }        
+    }
+
+    for (let i = 0; i < huntStore.huntStores.length; i++) {
+        const store = huntStore.huntStores[i];
+        if (!store.visited) {
             mapUIStore.nextStop = store;
-            if_setNextStop = true;
+            console.log('new nextstop',mapUIStore.nextStop);
             break;
         }
     }
+
     mapUIStore.showArrivalTask = false;
 
     let cntVisited = 0;
@@ -68,6 +77,7 @@ function handlePhotoSelection(event) {
     if (cntVisited >= storeNum) {
         mapUIStore.showCompleteCard = true;
     }
+    console.log(`cntVisited:`,cntVisited);
 }
 
 detectDevice();
