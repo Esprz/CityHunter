@@ -76,9 +76,9 @@ const closeStoreDetails = () => {
   }
 
   mapUIStore.inactiveStoreDetails();
-  mapUIStore.activeDistance(huntStore.huntStores[0].distance, huntStore.huntStores[0].walkTime);
+  mapUIStore.activeDistance(mapUIStore.nextStop.distance, mapUIStore.nextStop.walkTime);
   if (isEnrolled.value) {
-    mapUIStore.activeDestination(huntStore.huntStores[0].name);
+    mapUIStore.activeDestination(mapUIStore.nextStop.name);
     //mapStore.fitBounds();
   }
   else {
