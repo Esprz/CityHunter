@@ -1,6 +1,6 @@
 <svg width="430" height="932" viewBox="0 0 430 932" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<rect width="430" height="932" rx="48" fill="url(#pattern0_72_28665)"/>
-<rect width="430" height="932" rx="48" fill="black" fill-opacity="0.45"/>
+<rect width="430" height="932" fill="url(#pattern0_72_28665)"/>
+<rect width="430" height="932" fill="black" fill-opacity="0.45"/>
 <g filter="url(#filter0_d_72_28665)">
 <path d="M211 330C211 323.373 216.373 318 223 318V318C229.627 318 235 323.373 235 330V330C235 336.627 229.627 342 223 342V342C216.373 342 211 336.627 211 330V330Z" fill="#FF7200"/>
 <path d="M223 341C216.925 341 212 336.075 212 330C212 323.925 216.925 319 223 319C229.075 319 234 323.925 234 330C234 336.075 229.075 341 223 341Z" stroke="white" stroke-width="2"/>
