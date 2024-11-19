@@ -74,16 +74,16 @@ function handlePhotoSelection(event) {
         mapUIStore.showOneThirdCard = true;
         mapUIStore.alreadyOneThird = true;
     }
-    if (cntVisited >= storeNum) {
-        mapUIStore.showCompleteCard = true;
-    }
+    //if (cntVisited >= storeNum) {
+    //    mapUIStore.showCompleteCard = true;
+    //}
     console.log(`cntVisited:`,cntVisited);
 }
 
 detectDevice();
 </script>
 <template>
-    <div>
+    <v-card class="v-card-style">
         <GeneralRewardCard :text="task.text" :subtext="task.subtext" :img="task.img" :button-text="task.buttonText"
             :buttonFunc="takePhoto" :sec-button-text="task.secButtonText" :secButtonFunc="uploadPhoto" />
         <!-- Hidden inputs for camera and gallery -->
@@ -91,7 +91,13 @@ detectDevice();
             @change="handlePhotoSelection" />
         <input id="galleryInput" type="file" accept="image/*" style="display: none" @change="handlePhotoSelection" />
 
-    </div>
+    </v-card>
 </template>
 
-<style scoped></style>
+
+<style scoped>
+.v-card-style{
+    aspect-ratio: 2/3;
+}
+
+</style>

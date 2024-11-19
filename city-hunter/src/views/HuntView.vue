@@ -14,10 +14,10 @@ import { useHuntStore } from "@/stores/huntStore";
 import { useMapUIStore } from "@/stores/mapUIStore";
 import DescriptionCard from "@/components/DescriptionCard.vue";
 import { useMapStore } from "@/stores/mapStore";
-import GeneralRewardCard from "@/components/GeneralRewardCard.vue";
-import GeneralButton from '@/components/GeneralButton.vue';
 import TakePhotoCard from "@/components/TakePhotoCard.vue";
 import OneThirdWayCard from "@/components/OneThirdWayCard.vue";
+import CompletionCard from "@/components/CompletionCard.vue";
+import CouponReedemCard from "@/components/CouponReedemCard.vue";
 const mapUIStore = useMapUIStore();
 const eventStore = useEventStore();
 const huntStore = useHuntStore();
@@ -139,9 +139,7 @@ watch(() => mapUIStore.nextStop, (newNextStop) => {
     <NavigationBar v-if="showNavbar" class="navigation-bar" />
 
     <v-dialog v-model="mapUIStore.showArrivalTask" width="auto" transition="dialog-bottom-transition">
-      <v-card class="v-card-style">
-        <TakePhotoCard />
-      </v-card>
+      <TakePhotoCard />
     </v-dialog>
 
 
@@ -150,18 +148,11 @@ watch(() => mapUIStore.nextStop, (newNextStop) => {
     </v-dialog>
 
     <v-dialog v-model="mapUIStore.showCompleteCard" width="auto" transition="dialog-bottom-transition">
-      <v-card class="v-card-style">
-        <div class="general-reward-card">
-          <img src="/rewards/ace_hunter.svg" />
-          <p> Wow, congratulations!</p>
-          <h2> You've outpaced 80% of participants!</h2>
-          <p>Time</p>
-          <h3>2:30:46</h3>
-          <p>Your Footsteps</p>
-          <h3>Golden Backery</h3>
-          <GeneralButton text="Get my reward" :click-event=null />
-        </div>
-      </v-card>
+      <CompletionCard />
+    </v-dialog>
+
+    <v-dialog v-model="mapUIStore.showCouponReedemCard" width="auto" transition="dialog-bottom-transition">
+      <CouponReedemCard />
     </v-dialog>
 
   </div>
@@ -240,8 +231,12 @@ watch(() => mapUIStore.nextStop, (newNextStop) => {
 }
 
 .v-card-style {
-  max-width: 320px;
+  max-width: 360px;
   border-radius: 20px !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
 
   GeneralButton {
     width: 100%;

@@ -29,10 +29,9 @@ export const useMapUIStore = defineStore("mapUI", {
         showOneThirdCard: false,
         alreadyOneThird: false,
 
-        showCompleteCard: true,
+        showCompleteCard: false,
 
-        showCouponCard: false,
-
+        showCouponReedemCard: false,
 
 
     }),

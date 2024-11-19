@@ -23,7 +23,7 @@ function claimCoupon(index) {
 
         <div class="coupons-grid">
             <CouponCard v-for="(coupon, index) in eventStore.coupons" :key="index" :title="coupon.title"
-                :deal="coupon.deal" :badge="coupon.badge" :claimed="coupon.claimed" @claim="claimCoupon(index)" />
+                :deal="coupon.deal" :badge="coupon.badge" :claimed="coupon.claimed" @claim="claimCoupon(index)" :showClaim="true" />
         </div>
     </div>
 

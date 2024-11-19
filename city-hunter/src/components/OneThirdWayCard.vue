@@ -25,6 +25,7 @@ const image = [
 
 const nextStop = () => {
     mapUIStore.showOneThirdCard = false;
+    mapUIStore.showCompleteCard = true;
 }
 </script>
 
@@ -45,6 +46,21 @@ const nextStop = () => {
 
 
 <style scoped>
+.general-reward-card {
+    aspect-ratio: 2/3;
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+    gap: 10px;
+    justify-content: space-evenly;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    p {
+        color: var(--gray);
+    }
+}
+
 .foreground-image {
     z-index: 2;
     width: 50%;
@@ -66,4 +82,7 @@ const nextStop = () => {
     transition: transform 2s ease-in-out;
 }
 
+p{
+    margin-top: 30px;
+}
 </style>

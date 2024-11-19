@@ -6,6 +6,7 @@ defineProps({
     deal: String,
     badge: String,
     claimed: Boolean,
+    showClaim: Boolean,
 });
 
 const emit = defineEmits(["claim"]);
@@ -21,8 +22,10 @@ function handleClaim() {
         <div class="deal-banner">{{ deal }}</div>
         <h2 class="coupon-title">{{ title }}</h2>
 
-        <GeneralButton v-if="!claimed" class="unclaimed" text="Claim" :click-event="handleClaim" />
-        <GeneralButton v-else text="Claimed" disabled />
+        <div v-if="showClaim">
+            <GeneralButton v-if="!claimed" class="unclaimed" text="Claim" :click-event="handleClaim" />
+            <GeneralButton v-else text="Claimed" disabled />
+        </div>
 
     </div>
 </template>
@@ -62,8 +65,8 @@ img {
     margin: 8px 0;
 }
 
-.unclaimed{
-  color: var(--color2);
-  background-color: var(--color3);
+.unclaimed {
+    color: var(--color2);
+    background-color: var(--color3);
 }
 </style>
