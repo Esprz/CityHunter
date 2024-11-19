@@ -25,7 +25,6 @@ const getDirection = async () => {
     if (element) {
         element.style.height = '100vh';
     }
-    
     mapUIStore.inactiveStoreDetails();
     await mapStore.calculateAndDisplayRoute({
         lat: mapStore.destination.lat,
@@ -47,7 +46,7 @@ const restoreWindow = () => {
     mapUIStore.expandStoreDetails = false;
     const element = document.querySelector('.bottom-sheet__content');
     if (element) {
-        element.style.height = '50vh';
+        element.style.height = '60vh';
         element.style.transition = 'height 0.3s ease-in-out';
     }
 }

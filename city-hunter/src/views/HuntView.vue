@@ -71,7 +71,7 @@ const closeStoreDetails = () => {
   mapUIStore.expandStoreDetails = false;
   const element = document.querySelector('.bottom-sheet__content');
   if (element) {
-    element.style.height = '50vh';
+    element.style.height = '60vh';
     element.style.transition = 'height 0.3s ease-in-out';
   }
 
