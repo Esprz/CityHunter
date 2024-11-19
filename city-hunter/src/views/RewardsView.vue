@@ -35,5 +35,6 @@ function claimCoupon(index) {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 16px;
+    margin-top: 20px;
 }
 </style>
