@@ -21,6 +21,7 @@ const storeInfo = computed(() => mapUIStore.StoreDetailsContent);
 const getDirection = async () => {
     console.log(`Navigating to ${storeInfo.name}...`);
     mapUIStore.showTodoCard = false;
+    mapUIStore.showNavBar = false;
     const element = document.querySelector('.map-background');
     if (element) {
         element.style.height = '100vh';
@@ -46,7 +47,7 @@ const restoreWindow = () => {
     mapUIStore.expandStoreDetails = false;
     const element = document.querySelector('.bottom-sheet__content');
     if (element) {
-        element.style.height = '60vh';
+        element.style.height = 'var(--half-expand-bottom-sheet-height)';
         element.style.transition = 'height 0.3s ease-in-out';
     }
 }
@@ -91,6 +92,7 @@ onMounted(() => {
 
 .get-direction {
     width: 100%;
+    color: white;
 }
 
 .store-details-card {

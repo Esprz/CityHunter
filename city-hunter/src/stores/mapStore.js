@@ -439,9 +439,11 @@ export const useMapStore = defineStore("mapStore", {
                         this.map3D.removeChild(this.polyline);
                         const element = document.querySelector('.map-background');
                         if (element) {
-                            element.style.height = '70vh';
+                            element.style.bottom = 'var(--navbar-height)';
                         }
+                        mapUIStore.showNavBar = true;
                         mapUIStore.showTodoCard = true;
+                        
 
                         //this.animateCameraAlongRoute(response.routes[0].overview_path);
                     } else {

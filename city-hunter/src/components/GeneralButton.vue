@@ -2,7 +2,7 @@
 import { defineProps } from 'vue';
 const props = defineProps({
     text: String,
-    clickEvent:Function,
+    clickEvent: Function,
 });
 </script>
 

@@ -28,7 +28,7 @@ const props = defineProps({
 
 <style scoped>
 .card {
-    border-radius: 20px 20px 0 0;
+    border-radius: 20px 20px 20px 20px;
     padding: 0;
     width: 100%;
     overflow: hidden;
@@ -36,22 +36,24 @@ const props = defineProps({
 
 .card-top {
     border-radius: 20px 20px 0 0;
-    padding: 15px;
+    padding: 10px 15px;
     background-color: var(--color3);
     display: flex;
     justify-content: space-between;
+    align-items: center;
     overflow: hidden;
 }
 
 .card-bottom {
     padding: 5px 15px;
-    background-color: white;
-    /*white-space: nowrap;*/
+    background-color: #f5f5f5;
+    border-radius: 0 0 20px 20px;
+    height: 100%;
     overflow: hidden;
 }
 
 .store-avatar {
-    margin: 5px;
+    margin: 0px;
     margin-right: 10px;
     overflow: hidden;
 }

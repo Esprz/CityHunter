@@ -16,14 +16,15 @@ function claimCoupon(index) {
 </script>
 
 <template>
-    <div class="page-container">
+    <div class="page-container rewards-view-padding">
         <div class="page-header">
             <h1>Rewards</h1>
         </div>
 
         <div class="coupons-grid">
             <CouponCard v-for="(coupon, index) in eventStore.coupons" :key="index" :title="coupon.title"
-                :deal="coupon.deal" :badge="coupon.badge" :claimed="coupon.claimed" @claim="claimCoupon(index)" :showClaim="true" />
+                :deal="coupon.deal" :badge="coupon.badge" :claimed="coupon.claimed" @claim="claimCoupon(index)"
+                :showClaim="true" />
         </div>
     </div>
 
@@ -31,10 +32,27 @@ function claimCoupon(index) {
 </template>
 
 <style scoped>
+.rewards-view-padding {
+    padding: 30px;
+}
+
 .coupons-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-    margin-top: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+
+    CouponCard {
+        align-self: center;
+    }
+}
+
+
+
+@media (max-width: 480px) {
+    .rewards-view-padding {
+        padding: 20px;
+    }
 }
 </style>

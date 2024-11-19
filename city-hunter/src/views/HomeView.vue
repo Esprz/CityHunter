@@ -14,14 +14,28 @@ function goToTutorial() {
         <MapComponent />
         <div class="map-overlay"></div>
       </div>
+
       <img class="welcome-img" src="/welcome_image.svg" />
     </div>
   </main>
 </template>
 
 <style scoped>
+main{
+  width: 100vw;
+  height: 100vh;
+}
+.home-container {
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
 .welcome-img {
-  width: 80vw;
+  width: 80%;
+  height: 50%;
   z-index: 3;
   margin: auto;
   margin-top: 25vh;
@@ -33,9 +47,10 @@ function goToTutorial() {
   left: 0;
   right: 0;
   bottom: 0;
-  width: 100vh;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   z-index: 0;
+  overflow: hidden;
 }
 
 .map-overlay {
@@ -46,15 +61,8 @@ function goToTutorial() {
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
   z-index: 1;
-}
-
-.home-container {
-  position: relative;
-  display: flex;
-  justify-items: center;
-  align-items: center;
-  width: 100vw;
-  height: 100vh;
   overflow: hidden;
 }
+
+
 </style>

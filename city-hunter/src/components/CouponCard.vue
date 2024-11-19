@@ -41,12 +41,14 @@ function handleClaim() {
     text-align: center;
     padding: 12px;
     position: relative;
+    width: 170px;
+    margin: auto;
 }
 
 
 img {
     width: 80%;
-    margin-top: 35px;
+    margin-top: 30px;
 }
 
 .deal-banner {
@@ -62,7 +64,7 @@ img {
 }
 
 .coupon-title {
-    margin: 8px 0;
+    margin: 4px 0;
 }
 
 .unclaimed {

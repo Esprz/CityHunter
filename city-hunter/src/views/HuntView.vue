@@ -71,7 +71,7 @@ const closeStoreDetails = () => {
   mapUIStore.expandStoreDetails = false;
   const element = document.querySelector('.bottom-sheet__content');
   if (element) {
-    element.style.height = '60vh';
+    element.style.height = 'var(--half-expand-bottom-sheet-height)';
     element.style.transition = 'height 0.3s ease-in-out';
   }
 
@@ -162,14 +162,15 @@ watch(() => mapUIStore.nextStop, (newNextStop) => {
 
 <style scoped>
 .map-background {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  bottom: 30vh;
-  width: 100vw;
-  height: 70vh;
-  z-index: 2;
+  bottom: var(--navbar-height);
+  width: 100%;  
+  min-width: 420px;
+  height: 100%;
+  z-index: 0;
 }
 
 .loc-info {
@@ -177,6 +178,8 @@ watch(() => mapUIStore.nextStop, (newNextStop) => {
   top: 0;
 
   width: 100%;
+  max-width: 500px;
+  min-width: 420px;
   height: auto;
 
   background-color: transparent;
@@ -196,12 +199,13 @@ watch(() => mapUIStore.nextStop, (newNextStop) => {
 }
 
 .hunt-info {
-  position: absolute;
-  bottom: 8vh;
-  width: 100%;
+  position: fixed;
+  bottom: var(--navbar-height);
+  left: 0;
+  right: 0;
   height: auto;
   background-color: var(--color-background);
-  padding: 30px;
+  padding: 20px;
   border-radius: 30px 30px 0 0;
   box-sizing: border-box;
   z-index: 10;
@@ -217,6 +221,13 @@ watch(() => mapUIStore.nextStop, (newNextStop) => {
   gap: 10px;
 }
 
+@media (min-aspect-ratio: 1/2) {
+  .eventCard {
+    flex-direction: row;
+  }
+}
+
+
 .general-reward-card {
   display: flex;
   flex-direction: column;
@@ -231,6 +242,8 @@ watch(() => mapUIStore.nextStop, (newNextStop) => {
 }
 
 .v-card-style {
+  min-height: 540px;
+  min-width: 360px;
   max-width: 360px;
   border-radius: 20px !important;
   display: flex;

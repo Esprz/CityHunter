@@ -44,6 +44,7 @@ const todoList = computed(() =>
 .todo-item {
     background-color: white;
     margin: 20px;
+    margin-top: 0;
     padding: 13px;
     border-radius: 10px;
 }
