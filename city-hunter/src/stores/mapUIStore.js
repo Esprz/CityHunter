@@ -8,22 +8,30 @@ export const useMapUIStore = defineStore("mapUI", {
             walkTime: ""
         },
 
+        nextStop: {},
+
         showDestination: false,
         DestinationContent: "",
 
         showStoreDetails: false,
-        StoreDetailsContent:{}, 
+        StoreDetailsContent: {},
+        expandStoreDetails:false,
+
+        showTodoCard: true,
 
         showNavBar: true,
         NavBarItem: "my-hunt",
 
-        showDirection:false,
+        showDirection: false,
 
-        showArrivalTask:false,
-        showOneThirdCard:false,
-        showCompleteCard:false,
+        showArrivalTask: false,
 
-        showTodoCard:true,
+        showOneThirdCard: false,
+        alreadyOneThird: false,
+
+        showCompleteCard: true,
+
+        showCouponCard: false,
 
 
 
@@ -32,14 +40,14 @@ export const useMapUIStore = defineStore("mapUI", {
 
     },
     actions: {
-        activeDestination(name){
+        activeDestination(name) {
             this.DestinationContent = name;
             this.showDestination = true;
         },
         inactiveDestination() {
             this.showDestination = false;
         },
-        activeDistance(distance, walkTime){
+        activeDistance(distance, walkTime) {
             this.DistanceContent = { distance: distance, walkTime: walkTime };
             this.showDistance = true;
         },
@@ -57,12 +65,12 @@ export const useMapUIStore = defineStore("mapUI", {
             this.showStoreDetails = true;
             this.StoreDetailsContent = storeInfo;
         },
-        inactiveStoreDetails(){
-            this.showStoreDetails=false;
+        inactiveStoreDetails() {
+            this.showStoreDetails = false;
         },
-        activateDirection(){
+        activateDirection() {
 
         },
-        
+
     },
 });

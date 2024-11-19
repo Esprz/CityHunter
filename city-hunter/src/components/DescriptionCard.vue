@@ -1,14 +1,14 @@
 <script setup>
 import { useMapUIStore } from '@/stores/mapUIStore';
-import { computed, defineProps } from 'vue';
-import GeneralBottomCard from './GeneralBottomCard.vue';
+import { computed, onMounted } from 'vue';
+import SvgIcon from '@jamescoyle/vue-icon';
+import { mdiClose, mdiExportVariant } from '@mdi/js';
+import MagnifyButton from './MagnifyButton.vue'
 import GeneralButton from './GeneralButton.vue';
 import { useMapStore } from '@/stores/mapStore';
 import { useEventStore } from '@/stores/eventStore';
-const props = defineProps({
-    text: String,
-    clickEvent: Function,
-});
+
+
 const mapUIStore = useMapUIStore();
 const mapStore = useMapStore();
 const eventStore = useEventStore();
@@ -16,10 +16,11 @@ const eventStore = useEventStore();
 const isEnrolled = computed(() => eventStore.isEnrolled);
 const storeInfo = computed(() => mapUIStore.StoreDetailsContent);
 
-console.log(storeInfo.photos);
+//console.log(storeInfo.photos);
 
 const getDirection = async () => {
     console.log(`Navigating to ${storeInfo.name}...`);
+    //mapUIStore.showTodoCard = false;
     await mapStore.calculateAndDisplayRoute({
         lat: mapStore.destination.lat,
         lng: mapStore.destination.lng,
@@ -28,11 +29,40 @@ const getDirection = async () => {
     console.log(`Arrived at ${storeInfo.name}`);
 }
 
+const maximizeDescription = () => {
+    mapUIStore.expandStoreDetails = true;
+    const element = document.querySelector('.bottom-sheet__content');
+    if (element) {
+        element.style.height = '100vh';
+        element.style.transition = 'height 0.3s ease-in-out';
+    }
+}
+const restoreWindow = () => {
+    mapUIStore.expandStoreDetails = false;
+    const element = document.querySelector('.bottom-sheet__content');
+    if (element) {
+        element.style.height = '50vh';
+        element.style.transition = 'height 0.3s ease-in-out';
+    }
+}
+
+onMounted(() => {
+    if (!mapUIStore.expandStoreDetails) restoreWindow();
+})
+
+
 </script>
 
 <template>
     <div class="store-details-card">
-        <h1>{{ storeInfo.name }}</h1>
+        <div class="store-details-header">
+            <h1>{{ storeInfo.name }}</h1>
+            <MagnifyButton v-if="!mapUIStore.expandStoreDetails" @click="maximizeDescription" style="background-color: var(--color3);"/>            
+            <div v-else>
+                <svg-icon class="store-details-icon" type="mdi" :path=mdiExportVariant></svg-icon>
+                <svg-icon class="store-details-icon" type="mdi" :path=mdiClose @click="restoreWindow"></svg-icon>
+            </div>
+        </div>
         <p>{{ storeInfo.rating || '4.3' }} ★</p>
         <p class="description">{{ storeInfo.description }}</p>
         <div class="photo-container">
@@ -63,6 +93,25 @@ const getDirection = async () => {
     padding: 20px;
 }
 
+.store-details-header {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+
+    div {
+        display: flex;
+        gap: 10px;
+    }
+
+    .store-details-icon {
+        width: 40px;
+        height: 40px;
+        background-color: #F5F5F5;
+        border-radius: 100%;
+        padding: 5px;
+    }
+}
+
 .description {
     width: 100%;
 }
@@ -78,18 +127,15 @@ const getDirection = async () => {
     margin-bottom: 10px;
     border-radius: 20px;
     object-fit: cover;
-    /* 确保图片裁剪适配容器 */
 }
 
 .full-width {
     width: 100%;
     aspect-ratio: 16 / 9;
-    /* 设置宽高比例为 16:9 */
 }
 
 .half-width {
     width: calc(50% - 5px);
     aspect-ratio: 1 / 1;
-    /* 设置宽高比例为 1:1 */
 }
 </style>

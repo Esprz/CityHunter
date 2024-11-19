@@ -68,6 +68,13 @@ watch(() => mapUIStore.showStoreDetails, (newVal) => {
 });
 
 const closeStoreDetails = () => {
+  mapUIStore.expandStoreDetails = false;
+  const element = document.querySelector('.bottom-sheet__content');
+  if (element) {
+    element.style.height = '50vh';
+    element.style.transition = 'height 0.3s ease-in-out';
+  }
+  
   mapUIStore.inactiveStoreDetails();
   mapUIStore.activeDistance(huntStore.huntStores[0].distance, huntStore.huntStores[0].walkTime);
   if (isEnrolled.value) {
@@ -169,9 +176,7 @@ watch(() => mapUIStore.nextStop, (newNextStop) => {
     </div>
 
     <vue-bottom-sheet ref="storeDetails" :overlay="false" @closed="closeStoreDetails">
-      <div class="store-details">
-        <DescriptionCard />
-      </div>
+      <DescriptionCard />
     </vue-bottom-sheet>
 
     <NavigationBar v-if="showNavbar" class="navigation-bar" />
@@ -208,10 +213,6 @@ watch(() => mapUIStore.nextStop, (newNextStop) => {
 
 
 <style scoped>
-.store-details {
-  height: 50vh;
-}
-
 .map-background {
   position: absolute;
   top: 0;

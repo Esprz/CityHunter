@@ -11,10 +11,11 @@ import { mdiMagnify } from '@mdi/js';
 
 <style scoped>
 .magnify-container {
+    display: flex;
     padding: 5px;
     border-radius: 100%;
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     background-color: var(--color4);
     color: var(--color2);
     justify-content: center;

@@ -161,7 +161,8 @@ p {
 
 /* -------------------------styling for bottom sheet ----------------------------*/
 .bottom-sheet__content {
-  max-height: 50vh !important;
+  height: 50vh;
+  max-height: 100vh!important;
   width: 100vw;
 }
 
