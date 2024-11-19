@@ -225,15 +225,6 @@ export const useHuntStore = defineStore("store", {
         }));
     },
 
-    visitStore(storeId) {
-      const store = this.huntStores.get(storeId);
-      if (store && !store.visited) {
-        store.visited = true;
-
-        const mapStore = useMapStore();
-        mapStore.removeMarker(storeId);
-      }
-    },
   },
 
 });

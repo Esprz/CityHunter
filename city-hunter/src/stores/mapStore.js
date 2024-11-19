@@ -1,8 +1,7 @@
 import { defineStore } from "pinia";
 import { useHuntStore } from "./huntStore";
 import { useMapUIStore } from "./mapUIStore";
-const huntStore = useHuntStore();
-const mapUIStore = useMapUIStore();
+
 export const useMapStore = defineStore("mapStore", {
     state: () => ({
         map3D: null,
@@ -120,6 +119,7 @@ export const useMapStore = defineStore("mapStore", {
 
         fitBounds() {
             if (!this.map3D) return;
+            const huntStore = useHuntStore();
 
             const bounds = {
                 north: -Infinity,
@@ -291,6 +291,7 @@ export const useMapStore = defineStore("mapStore", {
 
         },
         async calculateAndDisplayRoute(destination) {
+            const mapUIStore = useMapUIStore();
             const directionsService = new google.maps.DirectionsService();
             const { AltitudeMode } = await google.maps.importLibrary("maps3d");
             const { UnitSystem } = await google.maps.importLibrary("core");
@@ -529,6 +530,5 @@ export const useMapStore = defineStore("mapStore", {
             this.map3D.appendChild(this.polygon);
             //console.log("Building outline drawn:", this.polygon);
         },
-
     },
 });
