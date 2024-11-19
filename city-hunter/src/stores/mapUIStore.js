@@ -57,9 +57,6 @@ export const useMapUIStore = defineStore("mapUI", {
         toggleNavBarVisibility() {
             this.showNavBar = !this.showNavBar;
         },
-        selectNavBarItem() {
-
-        },
         activeStoreDetails(storeInfo) {
             this.showStoreDetails = true;
             this.StoreDetailsContent = storeInfo;

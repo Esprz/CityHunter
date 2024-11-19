@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import { useMapUIStore } from '@/stores/mapUIStore'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,6 +39,17 @@ const router = createRouter({
       component: () => import('../views/AchievedView.vue'),
     },
   ],
+})
+router.beforeEach((to, from, next) => {
+  const mapUIStore = useMapUIStore()
+
+  if (to.name === 'hunt') {
+    mapUIStore.NavBarItem = 'my-hunt'
+  }
+  else if (to.name === 'rewards') {
+    mapUIStore.NavBarItem = 'rewards'
+  }
+  next()
 })
 
 export default router

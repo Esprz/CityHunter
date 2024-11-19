@@ -10,6 +10,7 @@ const eventStore = useEventStore();
 
 const gotoReward = () => {
     mapUIStore.showCouponReedemCard = false;
+    mapUIStore.NavBarItem = 'rewards';
     router.push('/rewards');
 }
 
