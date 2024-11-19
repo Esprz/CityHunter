@@ -88,10 +88,13 @@ const eventStore = useEventStore();
     border-radius: 100%;
     padding: 10px;
     border: 2px solid #B35000;
+
+    p {
+        font-size: 14px;
+    }
 }
 
-p{
+p {
     font-weight: 550;
 }
-
 </style>
