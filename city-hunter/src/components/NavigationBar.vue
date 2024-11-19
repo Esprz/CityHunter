@@ -1,7 +1,6 @@
 <script setup>
-import { ref } from 'vue';
 import SvgIcon from '@jamescoyle/vue-icon';
-import { mdiStar, mdiMapCheckOutline, mdiMagnify } from '@mdi/js';
+import { mdiTrophy, mdiMapCheckOutline } from '@mdi/js';
 import { useRouter } from 'vue-router';
 import { useMapUIStore } from '@/stores/mapUIStore';
 const router = useRouter();
@@ -29,7 +28,7 @@ function selectNavBarItem(item) {
             </div>
             <div class="navigate-bar-item" :class="{ active: mapUIStore.NavBarItem === 'rewards' }"
                 @click="selectNavBarItem('rewards')">
-                <svg-icon type="mdi" :path="mdiStar"></svg-icon>
+                <svg-icon type="mdi" :path="mdiTrophy"></svg-icon>
                 <p>Rewards</p>
             </div>
         </div>
