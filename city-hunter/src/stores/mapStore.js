@@ -92,7 +92,7 @@ export const useMapStore = defineStore("mapStore", {
 
             this.polygon = new Polygon3DElement({
                 fillColor: 'rgba(255,178,115,0.5)',
-                strokeColor: '#FF0000', //#FF7200
+                strokeColor: '#FFFFFF',
                 strokeWidth: 5,
                 extruded: true,
                 altitudeMode: AltitudeMode.RELATIVE_TO_MESH,
@@ -292,22 +292,73 @@ export const useMapStore = defineStore("mapStore", {
         },
         async calculateAndDisplayRoute(destination) {
             const directionsService = new google.maps.DirectionsService();
-            //const { UnitSystem } = await google.maps.importLibrary("core");
+            const { AltitudeMode } = await google.maps.importLibrary("maps3d");
+            const { UnitSystem } = await google.maps.importLibrary("core");
+
+            function calculateDistance(lat1, lng1, lat2, lng2) {
+                const R = 6371e3;
+                const φ1 = (lat1 * Math.PI) / 180;
+                const φ2 = (lat2 * Math.PI) / 180;
+                const Δφ = ((lat2 - lat1) * Math.PI) / 180;
+                const Δλ = ((lng2 - lng1) * Math.PI) / 180;
+
+                const a =
+                    Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+                    Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+                const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+                return R * c;
+            }
+
+            const calTotalDistance = calculateDistance(
+                this.currentLocation.lat,
+                this.currentLocation.lng,
+                mapUIStore.nextStop.lat,
+                mapUIStore.nextStop.lng
+            );
+
+            function formatDistance(valueInMeters) {
+                if (valueInMeters < 100) {
+                    return `${Math.round(valueInMeters)} m`;
+                } else if (valueInMeters < 10000) {
+                    return `${(valueInMeters / 1000).toFixed(1)} km`;
+                } else {
+                    return `${Math.round(valueInMeters / 1000)} km`;
+                }
+            }
+
+            function formatTime(valueInSeconds) {
+                if (valueInSeconds < 3600) {
+                    return `${Math.round(valueInSeconds / 60)} min`;
+                } else {
+                    return `${Math.round(valueInSeconds / 3600)} hr`;
+                }
+            }
+
             directionsService.route(
                 {
                     origin: this.currentLocation,
                     destination: destination,
                     travelMode: google.maps.TravelMode.WALKING,
-                    //unitSystem: UnitSystem.METRIC,
+                    unitSystem: UnitSystem.METRIC,
                 },
                 async (response, status) => {
                     if (status === google.maps.DirectionsStatus.OK) {
                         //directionsRenderer.setDirections(response);
                         console.log("Directions request success", status);
-                        console.log(response);
+                        //console.log(response);
                         console.log(response.routes);
                         await this.drawPolylineFromJson(response);
                         const route = response.routes[0];
+
+                        const totalTime = route.legs[0].duration.value;
+                        const totalDistance = route.legs[0].distance.value;
+                        mapUIStore.DistanceContent = {
+                            distance: formatDistance(totalDistance),
+                            time: formatTime(totalTime),
+                        }
+                        mapUIStore.showDistance = true;
+
                         const firstStep = route.legs[0].steps[0];
                         const startLocation = firstStep.start_location;
                         this.map3D.center =
@@ -324,27 +375,8 @@ export const useMapStore = defineStore("mapStore", {
                         this.map3D.heading = heading;
                         this.map3D.tilt = 80;
                         this.map3D.range = 50;
-                        console.log('11111')
-
                         //const locationArray = this.extractLocationsFromJson(response.routes);
                         const locationArray = response.routes[0].overview_path;
-
-                        /*locationArray.forEach(async (loc) => {
-                            console.log(loc);
-                            await this.map3D.flyCameraTo({
-                                endCamera: {
-                                    center: {
-                                        lat: loc.lat(),
-                                        lng: loc.lng(),
-                                        altitude: 100,
-                                    },
-                                    tilt: 10,
-                                    range: 150
-                                },
-                                durationMillis: 15000
-                            });
-                            
-                        });*/
 
                         const syncCenter = () => {
                             this.currentLocation = this.map3D.center;
@@ -355,6 +387,18 @@ export const useMapStore = defineStore("mapStore", {
                             }
                             this.currentLocationMarker.altitudeMode = AltitudeMode.CLAMP_TO_GROUND;
 
+                            const distance = calculateDistance(
+                                this.currentLocation.lat,
+                                this.currentLocation.lng,
+                                mapUIStore.nextStop.lat,
+                                mapUIStore.nextStop.lng
+                            );
+                            const ratio = distance / calTotalDistance;
+                            mapUIStore.DistanceContent = {
+                                distance: formatDistance(ratio * totalDistance),
+                                walkTime: formatTime(ratio * totalTime)
+                            }
+
                             //console.log(this.currentLocation);
                         };
                         this.map3D.addEventListener("gmp-centerchange", syncCenter)
@@ -364,6 +408,13 @@ export const useMapStore = defineStore("mapStore", {
                         }
                         for (const loc of locationArray) {
                             //console.log(loc);
+                            const seg_distance = calculateDistance(
+                                this.currentLocation.lat,
+                                this.currentLocation.lng,
+                                loc.lat(),
+                                loc.lng()
+                            );
+                            const seg_ratio = seg_distance / calTotalDistance;
                             await this.map3D.flyCameraTo({
                                 endCamera: {
                                     center: {
@@ -374,28 +425,22 @@ export const useMapStore = defineStore("mapStore", {
                                     tilt: 10,
                                     range: 150,
                                 },
-                                durationMillis: 1000,
+                                durationMillis: Math.round(10000 * seg_ratio),
                             });
-                            await delay(900);
+                            await delay(Math.round(9000 * seg_ratio));
                         }
                         this.map3D.removeEventListener("gmp-centerchange", syncCenter)
+                        mapUIStore.DistanceContent = {
+                            distance: '0 m',
+                            walkTime: '0 min'
+                        }
                         mapUIStore.showArrivalTask = true;
                         this.map3D.removeChild(this.polyline);
-
-                        /*
-                        this.map3D.flyCameraTo({
-                            endCamera: {
-                                center: {
-                                    lat: endLocation.lat(),
-                                    lng: endLocation.lng(),
-                                    altitude: 0,
-                                },
-                                tilt: 50,
-                                range: 5000
-                            },
-                            durationMillis: 1000000000000000000
-                        });*/
-                        //console.log('2222222')
+                        const element = document.querySelector('.map-background');
+                        if (element) {
+                            element.style.height = '70vh';
+                        }
+                        mapUIStore.showTodoCard = true;
 
                         //this.animateCameraAlongRoute(response.routes[0].overview_path);
                     } else {
@@ -430,8 +475,8 @@ export const useMapStore = defineStore("mapStore", {
 
         async generateBuildingCoordinates(center, shape = 'rectangle', options = {}) {
             const {
-                size = 0.00015, 
-                rotation = 30, 
+                size = 0.00015,
+                rotation = 30,
             } = options;
 
             const rotatePoint = (point, angle, origin) => {
@@ -458,7 +503,7 @@ export const useMapStore = defineStore("mapStore", {
 
                 return [
                     ...rectangle.map((point) => rotatePoint(point, rotation, center)),
-                    rotatePoint(rectangle[0], rotation, center), 
+                    rotatePoint(rectangle[0], rotation, center),
                 ];
             }
         },
@@ -482,7 +527,7 @@ export const useMapStore = defineStore("mapStore", {
             }));
 
             this.map3D.appendChild(this.polygon);
-            console.log("Building outline drawn:", this.polygon);
+            //console.log("Building outline drawn:", this.polygon);
         },
 
     },

@@ -20,12 +20,18 @@ const storeInfo = computed(() => mapUIStore.StoreDetailsContent);
 
 const getDirection = async () => {
     console.log(`Navigating to ${storeInfo.name}...`);
-    //mapUIStore.showTodoCard = false;
+    mapUIStore.showTodoCard = false;
+    const element = document.querySelector('.map-background');
+    if (element) {
+        element.style.height = '100vh';
+    }
+    
+    mapUIStore.inactiveStoreDetails();
     await mapStore.calculateAndDisplayRoute({
         lat: mapStore.destination.lat,
         lng: mapStore.destination.lng,
-    });
-    mapUIStore.inactiveStoreDetails();
+    });    
+    
     console.log(`Arrived at ${storeInfo.name}`);
 }
 

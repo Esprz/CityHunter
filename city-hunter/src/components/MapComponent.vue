@@ -40,7 +40,9 @@ async function renderMarkers() {
             }
             mapStore.map3D.tilt = 30;
             mapStore.map3D.range = 300;
-            mapStore.drawBuildingOutlineFromCenter(event.position)          });
+            mapStore.drawBuildingOutlineFromCenter(event.position);
+            mapUIStore.nextStop = store;
+          });
       }
     })
   );

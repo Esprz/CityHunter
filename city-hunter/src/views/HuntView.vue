@@ -74,7 +74,7 @@ const closeStoreDetails = () => {
     element.style.height = '50vh';
     element.style.transition = 'height 0.3s ease-in-out';
   }
-  
+
   mapUIStore.inactiveStoreDetails();
   mapUIStore.activeDistance(huntStore.huntStores[0].distance, huntStore.huntStores[0].walkTime);
   if (isEnrolled.value) {
@@ -92,49 +92,6 @@ const closeStoreDetails = () => {
 
 const showNavbar = computed(() => mapUIStore.showNavBar);
 
-function calculateDistance(lat1, lng1, lat2, lng2) {
-  const R = 6371e3;
-  const φ1 = (lat1 * Math.PI) / 180;
-  const φ2 = (lat2 * Math.PI) / 180;
-  const Δφ = ((lat2 - lat1) * Math.PI) / 180;
-  const Δλ = ((lng2 - lng1) * Math.PI) / 180;
-
-  const a =
-    Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
-    Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-  return R * c;
-}
-
-
-watch(
-  () => mapStore.currentLocation,
-  (newLocation) => {
-    if (!newLocation || !mapUIStore.nextStop.name) return;
-    //console.log('-------------------------')
-    const distance = calculateDistance(
-      newLocation.lat,
-      newLocation.lng,
-      mapUIStore.nextStop.lat,
-      mapUIStore.nextStop.lng
-    );
-    //console.log(`${mapUIStore.nextStop.name}:`, distance)
-
-    /*
-    if (distance < 50) {
-      store.visited = true;
-      //console.warn(`Store ${store.name} marked as visited!`);
-    }
-    huntStore.huntStores.forEach((store) => {
-      if (store.place_id == mapUIStore.nextStop.place_id) {
-        store = mapUIStore.nextStop;
-      }
-    })*/
-
-  },
-  { immediate: false }
-);
 
 watch(() => mapUIStore.nextStop, (newNextStop) => {
   if (newNextStop.name) {

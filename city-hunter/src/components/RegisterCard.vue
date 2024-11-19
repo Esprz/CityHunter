@@ -16,9 +16,9 @@ const huntStore = useHuntStore();
 
 const enrollEvent = (event) => {
     eventStore.enroll(event);
-    const nextDest = huntStore.huntStores[0];
-    mapUIStore.activeDestination(nextDest.name);
-    mapUIStore.activeDistance(nextDest.distance, nextDest.walkTime);
+    mapUIStore.nextStop = huntStore.huntStores[0];
+    mapUIStore.activeDestination(mapUIStore.nextStop.name);
+    mapUIStore.activeDistance(mapUIStore.nextStop.distance, mapUIStore.nextStop.walkTime);
 };
 
 
