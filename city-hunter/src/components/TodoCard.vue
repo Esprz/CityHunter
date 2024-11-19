@@ -15,11 +15,11 @@ const props = defineProps({
 <template>
     <div class="todo-item-container">
 
-        <img class="shop-image" :src="avatar ? avatar : 'https://github.com/radix-vue.png'" alt="Shop Avatar" />
+        <img v-if="avatar" class="shop-image" :src="avatar" alt="Shop Avatar" />
 
         <div>
             <h2>{{ title }}</h2>
-            <div v-if="distance !== null" class="distance">
+            <div v-if="distance != null" class="distance">
 
                 <span class="distance-item">
                     <svg-icon type="mdi" :path=mdiDirections></svg-icon>

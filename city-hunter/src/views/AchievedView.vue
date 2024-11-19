@@ -10,11 +10,12 @@ const router = useRouter();
 function returnToHunt() {
     router.push('/hunt');
 }
-const todoList = computed(() =>
+const achievedList = computed(() =>
     huntStore.huntStores
         .filter(store => store.visited)
         .map(store => ({
-            title: store.name
+            title: store.name,
+            avatar:store.avatar
         }))
 );
 
@@ -28,8 +29,8 @@ const todoList = computed(() =>
             <svg-icon type="mdi" :path=mdiExportVariant></svg-icon>
         </div>
 
-        <ul v-for="(todo, index) in todoList" :key="index" class="achieved-item">
-            <TodoCard :title="todo.title" />
+        <ul v-for="(item, index) in achievedList" :key="index" class="achieved-item">
+            <TodoCard :title="item.title" :avatar="item.avatar" />
         </ul>
 
     </div>
