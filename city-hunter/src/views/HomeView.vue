@@ -3,7 +3,7 @@ import MapComponent from '@/components/MapComponent.vue';
 import { useRouter } from 'vue-router';
 const router = useRouter();
 function goToTutorial() {
-  router.push('/tutorial');
+  router.push('/hunt');
 }
 </script>
 
@@ -22,8 +22,8 @@ function goToTutorial() {
 
 <style scoped>
 main{
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
 }
 .home-container {
   display: flex;
@@ -39,17 +39,6 @@ main{
   z-index: 3;
   margin: auto;
   margin-top: 25vh;
-}
-
-.map-background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
   overflow: hidden;
 }
 

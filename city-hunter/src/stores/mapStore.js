@@ -153,7 +153,7 @@ export const useMapStore = defineStore("mapStore", {
             this.map3D.range = maxRange;
             //console.log(this.map3D.tilt)
             //console.log(this.map3D.roll)
-            this.map3D.tilt = 67.5;
+            this.map3D.tilt = 45;
         },
 
         /* --------------------------Marker------------------------------- */
@@ -532,5 +532,48 @@ export const useMapStore = defineStore("mapStore", {
             this.map3D.appendChild(this.polygon);
             //console.log("Building outline drawn:", this.polygon);
         },
+
+        async renderMarkers() {
+            const mapUIStore = useMapUIStore();
+            const huntStore = useHuntStore();
+            if (!this.map3D) return;
+            await Promise.all(
+              huntStore.huntStores.map(async (store) => {
+                if (!store.visited) {
+                  await this.addMarker({
+                    id: store.place_id,
+                    position: { lat: store.lat, lng: store.lng },
+                    label: store.name,
+                    avatar: store.frameAvatar,
+                  });
+          
+                  const marker = this.markersMap.get(store.place_id);
+                  //console.log(store.place_id);
+                  //console.log(this.markersMap.get(store.place_id));
+                  if (!marker.hasListener)
+                    marker.addEventListener('gmp-click', (event) => {
+                      // TODO: Do some work here. `event.position` can be used to get coordinates of the
+                      // click. `event.target.position` can be used to get marker's position.
+                      mapUIStore.activeStoreDetails(store);
+                      mapUIStore.inactiveDistance();
+                      mapUIStore.activeDestination(store.name);
+                      this.destination = event.position;
+                      this.map3D.center = {
+                        lat: event.position.lat,
+                        lng: event.position.lng,
+                        altitude: 10
+                      }
+                      this.map3D.tilt = 30;
+                      this.map3D.range = 300;
+                      this.drawBuildingOutlineFromCenter(event.position);
+                      mapUIStore.nextStop = store;
+                    });
+                }
+              })
+            );
+          
+            this.markersRendered = true;
+          }
+          
     },
 });

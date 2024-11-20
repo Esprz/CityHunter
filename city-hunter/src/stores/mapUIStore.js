@@ -17,9 +17,9 @@ export const useMapUIStore = defineStore("mapUI", {
         StoreDetailsContent: {},
         expandStoreDetails:false,
 
-        showTodoCard: true,
+        showTodoCard: false,
 
-        showNavBar: true,
+        showNavBar: false,
         NavBarItem: "my-hunt",
 
         showDirection: false,

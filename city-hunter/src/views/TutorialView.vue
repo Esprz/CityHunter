@@ -1,8 +1,16 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import TutorialCard from '../components/TutorialCard.vue';
+import MapComponent from '@/components/MapComponent.vue';
+import { useHuntStore } from "../stores/huntStore";
+import { useMapStore } from "../stores/mapStore";
+import { useMapUIStore } from "@/stores/mapUIStore";
+
 const router = useRouter();
+const mapUIStore = useMapUIStore();
+const huntStore = useHuntStore();
+const mapStore = useMapStore();
 
 const steps = [
   {
@@ -40,27 +48,55 @@ const steps = [
 const currentStepIndex = ref(0);
 const currentStep = computed(() => steps[currentStepIndex.value]);
 
-function nextStep() {
+async function nextStep() {
   if (currentStepIndex.value < steps.length - 1) {
     currentStepIndex.value++;
     const tutorialElement = document.querySelector('.tutorial-card');
     if (tutorialElement) {
       tutorialElement.style.top = steps[currentStepIndex.value].top;
     }
-    if (currentStepIndex.value == 2) {
-      setTimeout(() => {
-        currentStepIndex.value++;
-      }, 200);
+    switch (currentStepIndex.value) {
+      case 0:
+        break;
+      case 1:
+        await mapStore.renderCurrentLocation();
+        mapStore.map3D.tilt = 30;
+        mapStore.map3D.range = 300;
+        break;
+      case 2:
+        if (!huntStore.fetchedStoreDetails)
+          await huntStore.fetchStoreDetails(mapStore.map3D);
+        //console.log(document.querySelectorAll('gmp-marker-3d'))
+        await huntStore.updateStoreDistances(mapStore.currentLocation);
+        //console.log(document.querySelectorAll('gmp-marker-3d'))
+        if (!mapStore.markersRendered)
+          await mapStore.renderMarkers();
+          mapStore.fitBounds();
+        break;
+      case 3:
+        mapUIStore.showDestination = true;
+        mapUIStore.showDistance = true;
+        break;
+      case 4:
+        mapUIStore.showDestination = false;
+        mapUIStore.showDistance = false;
+        mapUIStore.showNavBar = true;
+        mapUIStore.showTodoCard = true;
+        break;
+      default:
+        const guideCat = document.querySelector('.guide-cat');
+        if (guideCat) guideCat.remove();
+        const arrowRight = document.querySelector('.icon-right');
+        if (arrowRight) arrowRight.remove();
+        const arrowDown = document.querySelector('.icon-down');
+        if (arrowDown) arrowDown.style.display = 'flex';
+
     }
-    if (currentStepIndex.value == steps.length - 1) {
-      const guideCat = document.querySelector('.guide-cat');
-      if (guideCat) guideCat.remove();
-      const arrowRight = document.querySelector('.icon-right');
-      if (arrowRight) arrowRight.remove();
-      const arrowDown = document.querySelector('.icon-down');
-      if (arrowDown) arrowDown.style.display = 'flex';
-    }
+
+
   } else {
+    mapUIStore.showNavBar = false
+    mapUIStore.showTodoCard = false
     router.push('/hunt');
   }
 }
@@ -70,7 +106,7 @@ function nextStep() {
 <template>
   <div class="tutorial">
     <div class="map-background">
-      <img :src="currentStep.bg" />
+      <MapComponent />
     </div>
     <TutorialCard :title="currentStep.title" :goNext="nextStep" />
   </div>

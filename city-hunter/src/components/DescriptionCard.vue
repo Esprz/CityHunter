@@ -24,14 +24,14 @@ const getDirection = async () => {
     mapUIStore.showNavBar = false;
     const element = document.querySelector('.map-background');
     if (element) {
-        element.style.height = '100vh';
+        element.style.bottom = '0'
     }
     mapUIStore.inactiveStoreDetails();
     await mapStore.calculateAndDisplayRoute({
         lat: mapStore.destination.lat,
         lng: mapStore.destination.lng,
-    });    
-    
+    });
+
     console.log(`Arrived at ${storeInfo.name}`);
 }
 
@@ -39,7 +39,7 @@ const maximizeDescription = () => {
     mapUIStore.expandStoreDetails = true;
     const element = document.querySelector('.bottom-sheet__content');
     if (element) {
-        element.style.height = '100vh';
+        element.style.bottom = '0';
         element.style.transition = 'height 0.3s ease-in-out';
     }
 }
@@ -47,7 +47,7 @@ const restoreWindow = () => {
     mapUIStore.expandStoreDetails = false;
     const element = document.querySelector('.bottom-sheet__content');
     if (element) {
-        element.style.height = 'var(--half-expand-bottom-sheet-height)';
+        element.style.bottom = 'var(--half-expand-bottom-sheet-height)';
         element.style.transition = 'height 0.3s ease-in-out';
     }
 }
@@ -63,7 +63,8 @@ onMounted(() => {
     <div class="store-details-card">
         <div class="store-details-header">
             <h1>{{ storeInfo.name }}</h1>
-            <MagnifyButton v-if="!mapUIStore.expandStoreDetails" @click="maximizeDescription" style="background-color: var(--color3);"/>            
+            <MagnifyButton v-if="!mapUIStore.expandStoreDetails" @click="maximizeDescription"
+                style="background-color: var(--color3);" />
             <div v-else>
                 <svg-icon class="store-details-icon" type="mdi" :path=mdiExportVariant></svg-icon>
                 <svg-icon class="store-details-icon" type="mdi" :path=mdiClose @click="restoreWindow"></svg-icon>

@@ -18,6 +18,7 @@ import TakePhotoCard from "@/components/TakePhotoCard.vue";
 import OneThirdWayCard from "@/components/OneThirdWayCard.vue";
 import CompletionCard from "@/components/CompletionCard.vue";
 import CouponReedemCard from "@/components/CouponReedemCard.vue";
+import TutorialCard from '../components/TutorialCard.vue';
 const mapUIStore = useMapUIStore();
 const eventStore = useEventStore();
 const huntStore = useHuntStore();
@@ -103,6 +104,85 @@ watch(() => mapUIStore.nextStop, (newNextStop) => {
   }
 })
 
+const steps = [
+  {
+    title: 'Hi, I\'ll guide you through in this hunting journey',
+    top: '30%',
+  },
+  {
+    title: 'This is where you are',
+    top: '55%',
+  },
+  {
+    title: 'Explore and Discover Local Treasures!',
+    top: '60%',
+  },
+  {
+    title: 'Follow Our Suggested Route or Design Your Own Adventure!',
+    top: '55%',
+  },
+  {
+    title: 'Track Your Hunting Progress Here!',
+    top: '40%',
+  },
+];
+const inTutorial = ref(true);
+const currentStepIndex = ref(0);
+const currentStep = computed(() => steps[currentStepIndex.value]);
+async function nextStep() {
+  if (currentStepIndex.value < steps.length - 1) {
+
+    currentStepIndex.value++;
+    const tutorialElement = document.querySelector('.tutorial-card');
+    if (tutorialElement) {
+      tutorialElement.style.top = steps[currentStepIndex.value].top;
+    }
+
+    switch (currentStepIndex.value) {
+      case 0:
+        break;
+      case 1:
+        await mapStore.renderCurrentLocation();
+        mapStore.map3D.center = {
+          lat: mapStore.currentLocation.lat,
+          lng: mapStore.currentLocation.lng,
+          altitude: 10
+        }
+        mapStore.map3D.tilt = 30;
+        mapStore.map3D.range = 1000;
+        break;
+      case 2:
+        if (!mapStore.markersRendered)
+          await mapStore.renderMarkers();
+        mapStore.fitBounds();
+        break;
+      case 3:
+        mapUIStore.nextStop = huntStore.huntStores[0];
+        mapUIStore.activeDestination(mapUIStore.nextStop.name);
+        eventStore.isEnrolled = true;
+        mapUIStore.activeDistance(mapUIStore.nextStop.distance, mapUIStore.nextStop.walkTime);
+        break;
+      case 4:
+        eventStore.isEnrolled = false;
+        mapUIStore.showDestination = false;
+        mapUIStore.showDistance = false;
+        mapUIStore.showNavBar = true;
+        mapUIStore.showTodoCard = true;
+        const guideCat = document.querySelector('.guide-cat');
+        if (guideCat) guideCat.remove();
+        const arrowRight = document.querySelector('.icon-right');
+        if (arrowRight) arrowRight.remove();
+        const arrowDown = document.querySelector('.icon-down');
+        if (arrowDown) arrowDown.style.display = 'flex';
+    }
+
+
+  } else {
+    mapUIStore.showNavBar = true;
+    mapUIStore.showTodoCard = true;
+    inTutorial.value = false;
+  }
+}
 
 </script>
 
@@ -117,6 +197,7 @@ watch(() => mapUIStore.nextStop, (newNextStop) => {
     <div class="map-background">
       <MapComponent />
     </div>
+    <TutorialCard v-if="inTutorial" :title="currentStep.title" :goNext="nextStep" />
 
 
     <div class="hunt-info" v-if="mapUIStore.showTodoCard">
@@ -167,7 +248,7 @@ watch(() => mapUIStore.nextStop, (newNextStop) => {
   left: 0;
   right: 0;
   bottom: var(--navbar-height);
-  width: 100%;  
+  width: 100%;
   min-width: 420px;
   height: 100%;
   z-index: 0;

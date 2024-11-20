@@ -32,14 +32,14 @@ const props = defineProps({
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    z-index: 3;
+    z-index: 10;
 }
 
 .tutorial-text-container {
     background-color: #f8d9e6;
     padding: 20px;
     border-radius: 20px 20px 0 20px;
-    z-index: 3;
+    z-index: 10;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-bottom: 5px solid var(--color2);
 }

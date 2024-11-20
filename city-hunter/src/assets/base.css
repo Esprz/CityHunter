@@ -22,8 +22,8 @@
   --color4: rgb(255, 178, 115);
   --color-text: #602B00;
 
-  --half-expand-bottom-sheet-height:50vh;
-  --navbar-height:70px;
+  --half-expand-bottom-sheet-height: 50vh;
+  --navbar-height: 70px;
 
 }
 
@@ -39,7 +39,7 @@
   font-weight: normal;
 }
 
-html{
+#app {
   overflow: hidden;
 }
 
@@ -86,6 +86,18 @@ p {
   background-color: var(--color-background);
 }
 
+.map-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: var(--navbar-height);
+  width: 100%;
+  min-width: 420px;
+  height: 100%;
+  z-index: 0;
+}
+
 .page-container {
   position: absolute;
   left: 0;
@@ -117,12 +129,14 @@ p {
   left: 10%;
   max-width: 300px;
 }
-.tutorial-text-container{
+
+.tutorial-text-container {
   background-color: var(--tutorial-card-background);
   padding: 20px;
   border-radius: 8px;
   z-index: 1;
 }
+
 .tutorial-header {
   text-align: left;
   color: var(--tutorial-card-title);
@@ -156,9 +170,9 @@ p {
 /* -------------------------styling for bottom sheet ----------------------------*/
 .bottom-sheet__content {
   height: var(--half-expand-bottom-sheet-height);
-  max-height: 100vh!important;
-  width: 100vw!important;
-  max-width: 100vw!important;
+  max-height: 100vh !important;
+  width: 100vw !important;
+  max-width: 100vw !important;
   min-width: 420px;
 }
 
