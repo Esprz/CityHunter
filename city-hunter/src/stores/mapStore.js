@@ -173,7 +173,7 @@ export const useMapStore = defineStore("mapStore", {
                 position: {
                     lat: this.currentLocation.lat,
                     lng: this.currentLocation.lng,
-                    altitude: 10
+                    altitude: 30
                 },
                 altitudeMode: AltitudeMode.RELATIVE_TO_MESH,
                 drawsWhenOccluded: true,
