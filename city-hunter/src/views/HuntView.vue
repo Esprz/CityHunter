@@ -300,7 +300,7 @@ async function nextStep() {
   gap: 10px;
 }
 
-@media (min-aspect-ratio: 1/2) {
+@media (min-aspect-ratio: 2/3) {
   .eventCard {
     flex-direction: row;
   }
