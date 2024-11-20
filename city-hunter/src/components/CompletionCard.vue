@@ -1,11 +1,20 @@
 <script setup>
 import { useMapUIStore } from '@/stores/mapUIStore';
 import GeneralButton from './GeneralButton.vue';
-import { ref } from 'vue';
+import { ref,computed } from 'vue';
+import { useHuntStore } from '@/stores/huntStore';
+import { storeToRefs } from 'pinia';
 const mapUIStore = useMapUIStore()
-
+const huntStore = useHuntStore();
 const animateImage = ref(false);
 
+const visitedStores = computed(() =>
+  huntStore.huntStores
+    .filter(store => store.visited)
+    .map(store => ({
+      name: store.name,
+    })) 
+);
 
 setTimeout(() => {
     animateImage.value = true;
@@ -35,7 +44,7 @@ const getReward = () => {
                 <p>Time</p>
                 <h3>2:30:46</h3>
                 <p>Your Footsteps</p>
-                <h3>Golden Backery</h3>
+                <h3 v-for="store in visitedStores">{{ store.name }}</h3>
                 <GeneralButton text="Get my reward" :click-event="getReward" />
             </div>
         </div>
