@@ -212,7 +212,7 @@ async function nextStep() {
       </div>
     </div>
 
-    <vue-bottom-sheet ref="storeDetails" :overlay="false" @closed="closeStoreDetails">
+    <vue-bottom-sheet ref="storeDetails" :overlay="true" :overlay-click-close="true" overlay-color="rgba(0, 0, 0, 0)" @closed="closeStoreDetails">
       <DescriptionCard />
     </vue-bottom-sheet>
 
