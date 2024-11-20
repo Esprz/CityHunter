@@ -23,8 +23,8 @@ function claimCoupon(index) {
 
         <div class="coupons-grid">
             <CouponCard v-for="(coupon, index) in eventStore.coupons" :key="index" :title="coupon.title"
-                :deal="coupon.deal" :badge="coupon.badge" :claimed="coupon.claimed" @claim="claimCoupon(index)"
-                :showClaim="true" />
+                :deal="coupon.deal" :badge="coupon.badge" :claimed="coupon.claimed"
+                @claim="mapUIStore.alreadyOneThird && index == 0 ? claimCoupon(index) : null" :showClaim="true" />
         </div>
     </div>
 
