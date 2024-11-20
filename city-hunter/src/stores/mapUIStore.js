@@ -32,6 +32,7 @@ export const useMapUIStore = defineStore("mapUI", {
         showCompleteCard: false,
 
         showCouponReedemCard: false,
+        inTutorial:true,
 
 
     }),

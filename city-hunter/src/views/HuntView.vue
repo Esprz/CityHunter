@@ -126,7 +126,6 @@ const steps = [
     top: '40%',
   },
 ];
-const inTutorial = ref(true);
 const currentStepIndex = ref(0);
 const currentStep = computed(() => steps[currentStepIndex.value]);
 async function nextStep() {
@@ -179,7 +178,7 @@ async function nextStep() {
   } else {
     mapUIStore.showNavBar = true;
     mapUIStore.showTodoCard = true;
-    inTutorial.value = false;
+    mapUIStore.inTutorial = false;
   }
 }
 
@@ -195,8 +194,9 @@ async function nextStep() {
 
     <div class="map-background">
       <MapComponent />
+      <div v-if="mapUIStore.inTutorial" class="map-overlay"></div>
     </div>
-    <TutorialCard v-if="inTutorial" :title="currentStep.title" :goNext="nextStep" />
+    <TutorialCard v-if="mapUIStore.inTutorial" :title="currentStep.title" :goNext="nextStep" />
 
 
     <div class="hunt-info" v-if="mapUIStore.showTodoCard">
@@ -241,16 +241,15 @@ async function nextStep() {
 
 
 <style scoped>
-.map-background {
-  position: fixed;
+.map-overlay {
+  position: absolute;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: var(--navbar-height);
   width: 100%;
-  min-width: 420px;
   height: 100%;
-  z-index: 0;
+  background: rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  overflow: hidden;
 }
 
 .loc-info {
