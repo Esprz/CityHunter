@@ -13,18 +13,18 @@ function goToTutorial() {
       <div class="map-background">
         <MapComponent />
         <div class="map-overlay"></div>
+        <img class="welcome-img" src="/welcome_image.svg" />
       </div>
-
-      <img class="welcome-img" src="/welcome_image.svg" />
     </div>
   </main>
 </template>
 
 <style scoped>
-main{
+main {
   width: 100%;
   height: 100%;
 }
+
 .home-container {
   display: flex;
   justify-items: center;
@@ -33,12 +33,15 @@ main{
   height: 100%;
   overflow: hidden;
 }
+
 .welcome-img {
+  position: absolute;
   width: 80%;
   height: 50%;
+  top: 20vh;
+  left: 50vw;
+  transform: translate(-50%, -20%);
   z-index: 3;
-  margin: auto;
-  margin-top: 25vh;
   overflow: hidden;
 }
 
@@ -52,6 +55,4 @@ main{
   z-index: 1;
   overflow: hidden;
 }
-
-
 </style>
