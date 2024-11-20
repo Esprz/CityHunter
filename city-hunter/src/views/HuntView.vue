@@ -153,7 +153,6 @@ async function nextStep() {
         mapUIStore.activeDistance(mapUIStore.nextStop.distance, mapUIStore.nextStop.walkTime);
         break;
       case 3:
-        eventStore.isEnrolled = false;
         mapUIStore.showDestination = false;
         mapUIStore.showDistance = false;
         mapUIStore.showNavBar = true;
@@ -175,7 +174,8 @@ async function nextStep() {
     }
 
 
-  } else {
+  } else {    
+    eventStore.isEnrolled = false;
     mapUIStore.showNavBar = true;
     mapUIStore.showTodoCard = true;
     mapUIStore.inTutorial = false;
