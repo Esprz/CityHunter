@@ -131,17 +131,8 @@ const currentStepIndex = ref(0);
 const currentStep = computed(() => steps[currentStepIndex.value]);
 async function nextStep() {
   if (currentStepIndex.value < steps.length - 1) {
-
-    currentStepIndex.value++;
-    const tutorialElement = document.querySelector('.tutorial-card');
-    if (tutorialElement) {
-      tutorialElement.style.top = steps[currentStepIndex.value].top;
-    }
-
     switch (currentStepIndex.value) {
       case 0:
-        break;
-      case 1:
         await mapStore.renderCurrentLocation();
         mapStore.map3D.center = {
           lat: mapStore.currentLocation.lat,
@@ -151,18 +142,18 @@ async function nextStep() {
         mapStore.map3D.tilt = 30;
         mapStore.map3D.range = 1000;
         break;
-      case 2:
+      case 1:
         if (!mapStore.markersRendered)
           await mapStore.renderMarkers();
         mapStore.fitBounds();
         break;
-      case 3:
+      case 2:
         mapUIStore.nextStop = huntStore.huntStores[0];
         mapUIStore.activeDestination(mapUIStore.nextStop.name);
         eventStore.isEnrolled = true;
         mapUIStore.activeDistance(mapUIStore.nextStop.distance, mapUIStore.nextStop.walkTime);
         break;
-      case 4:
+      case 3:
         eventStore.isEnrolled = false;
         mapUIStore.showDestination = false;
         mapUIStore.showDistance = false;
@@ -174,6 +165,14 @@ async function nextStep() {
         if (arrowRight) arrowRight.remove();
         const arrowDown = document.querySelector('.icon-down');
         if (arrowDown) arrowDown.style.display = 'flex';
+        break;
+      default:
+        break;
+    }
+    currentStepIndex.value++;
+    const tutorialElement = document.querySelector('.tutorial-card');
+    if (tutorialElement) {
+      tutorialElement.style.top = steps[currentStepIndex.value].top;
     }
 
 
