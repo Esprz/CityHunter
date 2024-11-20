@@ -38,7 +38,7 @@ This project was developed for the [Google 3D Maps Hackathon](https://google3dma
     ```
 
 3. **Set Up Environment Variables**
-   - Create a `.env` file in the root directory.
+   - Create a `.env` file in the city-hunter folder.
    - Add your Google Maps API key:
      ```bash
      VUE_APP_GOOGLE_MAPS_API_KEY=your_api_key_here
