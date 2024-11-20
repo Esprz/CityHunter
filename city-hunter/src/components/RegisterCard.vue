@@ -59,5 +59,6 @@ const avatarList = computed(() =>
     border-radius: 50px;
     padding: 10px;
     color: white;
+    margin-top: 10px;
 }
 </style>
