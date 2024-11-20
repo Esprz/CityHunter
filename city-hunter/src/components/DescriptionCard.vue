@@ -39,7 +39,7 @@ const maximizeDescription = () => {
     mapUIStore.expandStoreDetails = true;
     const element = document.querySelector('.bottom-sheet__content');
     if (element) {
-        element.style.bottom = '0';
+        element.style.height = '100vh';
         element.style.transition = 'height 0.3s ease-in-out';
     }
 }
@@ -47,7 +47,7 @@ const restoreWindow = () => {
     mapUIStore.expandStoreDetails = false;
     const element = document.querySelector('.bottom-sheet__content');
     if (element) {
-        element.style.bottom = 'var(--half-expand-bottom-sheet-height)';
+        element.style.height = 'var(--half-expand-bottom-sheet-height)';
         element.style.transition = 'height 0.3s ease-in-out';
     }
 }
