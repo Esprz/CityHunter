@@ -38,8 +38,8 @@ main {
   position: absolute;
   width: 80%;
   height: 50%;
-  top: 20vh;
-  left: 50vw;
+  top: 20dvh;
+  left: 50dvw;
   transform: translate(-50%, -20%);
   z-index: 3;
   overflow: hidden;

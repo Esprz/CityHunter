@@ -39,7 +39,7 @@ const maximizeDescription = () => {
     mapUIStore.expandStoreDetails = true;
     const element = document.querySelector('.bottom-sheet__content');
     if (element) {
-        element.style.height = '100vh';
+        element.style.height = '100dvh';
         element.style.transition = 'height 0.3s ease-in-out';
     }
 }
@@ -97,7 +97,7 @@ onMounted(() => {
 }
 
 .store-details-card {
-    width: 100vw;
+    width: 100dvw;
     padding: 20px;
 }
 

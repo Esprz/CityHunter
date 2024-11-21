@@ -22,7 +22,7 @@
   --color4: rgb(255, 178, 115);
   --color-text: #602B00;
 
-  --half-expand-bottom-sheet-height: 50vh;
+  --half-expand-bottom-sheet-height: 50dvh;
   --navbar-height: 70px;
 
 }
@@ -44,8 +44,8 @@
 }
 
 body {
-  height: 100vh;
-  width: 100vw;
+  height: 100dvh;
+  width: 100dvw;
   color: var(--color-text);
   background: var(--color-background);
   transition:
@@ -170,8 +170,8 @@ p {
 /* -------------------------styling for bottom sheet ----------------------------*/
 .bottom-sheet__content {
   height: var(--half-expand-bottom-sheet-height);
-  width: 100vw !important;
-  max-width: 100vw !important;
+  width: 100dvw !important;
+  max-width: 100dvw !important;
   min-width: 420px;
 }
 
