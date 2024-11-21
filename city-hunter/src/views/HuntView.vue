@@ -123,7 +123,7 @@ const steps = [
   },
   {
     title: 'Track Your Hunting Progress Here!',
-    top: '40%',
+    top: window.innerWidth / window.innerHeight > 1 / 2 || window.innerHeight < 800 ? '20%' : '40%',
   },
 ];
 const currentStepIndex = ref(0);
@@ -163,6 +163,26 @@ async function nextStep() {
         if (arrowRight) arrowRight.remove();
         const arrowDown = document.querySelector('.icon-down');
         if (arrowDown) arrowDown.style.display = 'flex';
+
+        const fixedComponent = document.querySelector('.hunt-info');
+        const absoluteComponent = document.querySelector('.tutorial-card');
+        if (fixedComponent && absoluteComponent) {
+          function updatePosition() {
+            const fixedRect = fixedComponent.getBoundingClientRect();
+            if (fixedRect && typeof fixedRect.top === 'number') {
+              absoluteComponent.style.position = 'absolute';
+              const topValue = fixedRect.top - absoluteComponent.offsetHeight - 10;
+              if (!isNaN(topValue)) {
+                absoluteComponent.style.top = `${topValue}px`;
+              } else {
+                console.error("Calculated top value is NaN");
+              }
+            } else {
+              console.error("fixedRect.top is invalid or missing properties");
+            }
+          }
+          updatePosition();
+        }
         break;
       default:
         break;
@@ -174,7 +194,7 @@ async function nextStep() {
     }
 
 
-  } else {    
+  } else {
     eventStore.isEnrolled = false;
     mapUIStore.showNavBar = true;
     mapUIStore.showTodoCard = true;
@@ -212,7 +232,8 @@ async function nextStep() {
       </div>
     </div>
 
-    <vue-bottom-sheet ref="storeDetails" :overlay="true" :overlay-click-close="true" overlay-color="rgba(0, 0, 0, 0)" @closed="closeStoreDetails">
+    <vue-bottom-sheet ref="storeDetails" :overlay="true" :overlay-click-close="true" overlay-color="rgba(0, 0, 0, 0)"
+      @closed="closeStoreDetails">
       <DescriptionCard />
     </vue-bottom-sheet>
 
