@@ -2,7 +2,8 @@
 
 City Hunter is a Vue.js-based application that gamifies city exploration and local marketing. This demo focuses on the player-side experience for completing a single scavenger hunt, powered by Google Maps Platform and photorealistic 3D Maps.  
 
-This project was developed for the [Google 3D Maps Hackathon](https://google3dmaps.devpost.com/). Check out our submission on [Devpost](https://google3dmaps.devpost.com/) for more details.
+This project was developed for the [Google 3D Maps Hackathon](https://google3dmaps.devpost.com/). 
+Check out our submission on [Devpost](https://devpost.com/software/city-hunter-i25zc3/) for more details.
 
 ---
 
@@ -55,30 +56,47 @@ This project was developed for the [Google 3D Maps Hackathon](https://google3dma
 
 ## Testing Instructions
 
-1. Visit the live demo of the application at [City Hunter Demo](https://city-hunter.vercel.app/).  
-   - **Note**: Always start from the main link `https://city-hunter.vercel.app/`. Starting from specific paths (e.g., `https://city-hunter.vercel.app/hunt`) is not supported and may result in unexpected behavior.  
-2. Follow the red tutorial card and click the arrow to complete the tutorial steps.  
-3. Click **‘I’m ready to start’** to begin the scavenger hunt.  
-4. Click the **magnifying glass icon** on the To-Do card header to view the list of all hotspots.  
-5. Click the **down arrow** to return to the hunt map.  
-6. Click the **marker with a coffee mug** to view the polygon-outlined hotspot and store details.  
-7. Click the **magnify button** to maximize the store details card.  
-8. Click the **close icon** to restore the store details card to its original size.  
-9. Click the **Get Direction** button to start the first journey.  
+1. **Access the Demo**  
+   Visit the live demo at [City Hunter Demo](https://city-hunter.vercel.app/).  
+   - **Important**: Always start from the main link: `https://city-hunter.vercel.app/`. Starting from specific paths (e.g., `https://city-hunter.vercel.app/hunt`) is not supported and may result in unexpected behavior.  
 
-   - In this demo, a default start location is set, and movement is emulated.  
-   - Pay attention to the distance widget as it decreases while moving towards the destination.  
+2. **Complete the Tutorial**  
+   Follow the red tutorial card and click the arrow to complete each tutorial step.
 
-10. After reaching the destination, take a photo or upload a check-in photo to complete the check-in.  
-    - Upon successful check-in:
-      - An icon will appear in the Achieved widget.
-      - One icon in the To-Do widget will decrease.  
-      - The distance and walk time in the blue widget will automatically update for the next stop.  
-      - Alternatively, you can drag the map and click on another store’s marker to set it as the next stop manually.  
+3. **Start the Hunt**  
+   Click **‘I’m ready to start’** to begin the scavenger hunt adventure.
 
-11. Feel free to explore other stores.  
-12. After completing 1/3 of the stores, different reward pop-up cards will appear, and you will become eligible to redeem coupons.  
-    
+4. **View Hotspots List**  
+   - Click the **magnifying glass icon** on the To-Do card header to see all hotspots.  
+   - Click the **down arrow** to return to the hunt map.
+
+5. **Explore Hotspots**  
+   - Click any **marker** or the top destination name widget to view the hotspot's polygon outline and store details.  
+   - **Recommended Starting Point**: Golden Bakery (the default first stop, croissant with a coffee mug marker).  
+
+6. **Interact with Store Details**  
+   - Click the **magnify button** to maximize the store details card.  
+   - Use the **close icon** to restore the card to its original size.
+
+7. **Start Your Journey**  
+   - On the **store details card**, click **Get Direction** to begin navigating to your first destination.  
+   - **Note**: In the full version, the app would use real-time user location and provide actual navigation based on movement. However, for this demo, a default start location is set, and movement is simulated to showcase the functionality.  
+   - Watch the distance widget as it updates, showing progress toward your destination.
+
+8. **Check-In at the Destination**  
+   - Take or upload a photo to check in upon arrival.  
+   - After a successful check-in:
+     - An icon will appear in the Achieved widget.
+     - The To-Do widget's remaining count will decrease.
+     - The distance and walk time in the blue widget will update for your next destination.  
+   - **Optional**: You can click on another store’s marker to manually set it as the next stop. Dragging the map is optional for easier navigation.
+
+9. **Explore More**  
+   - Feel free to discover other stores and landmarks.
+
+10. **Earn Rewards**  
+    - Complete 1/3 of the stores to unlock rewards and redeem coupons through pop-up cards.
+
 Enjoy your scavenger hunt! 🎉
 
 ---  
