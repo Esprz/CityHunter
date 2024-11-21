@@ -559,9 +559,9 @@ export const useMapStore = defineStore("mapStore", {
                       mapUIStore.activeDestination(store.name);
                       this.destination = event.position;
                       this.map3D.center = {
-                        lat: event.position.lat,
-                        lng: event.position.lng,
-                        altitude: 10
+                        lat: event.target.position.lat,
+                        lng: event.target.position.lng,
+                        altitude: 30
                       }
                       this.map3D.tilt = 30;
                       this.map3D.range = 300;

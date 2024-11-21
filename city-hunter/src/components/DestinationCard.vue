@@ -3,13 +3,20 @@ import SvgIcon from '@jamescoyle/vue-icon';
 import { mdiMapMarker } from '@mdi/js';
 import { defineProps, computed } from 'vue';
 import { useMapUIStore } from "@/stores/mapUIStore";
+import { useMapStore } from '@/stores/mapStore';
+const mapStore = useMapStore();
 const mapUIStore = useMapUIStore();
 const DestinationContent = computed(() => mapUIStore.DestinationContent);
-
+const clickEvent = () => {
+    const destination = mapUIStore.nextStop;
+    const marker = mapStore.markersMap.get(destination.place_id);
+    const event = new Event('gmp-click');
+    marker.dispatchEvent(event);
+}
 </script>
 
 <template>
-    <div class="destination-container">
+    <div class="destination-container" @click="clickEvent">
         <svg-icon class="magnify" type="mdi" :path=mdiMapMarker></svg-icon>
         <p> {{ DestinationContent }} </p>
     </div>
