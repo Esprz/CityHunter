@@ -57,7 +57,7 @@ Check out our submission on [Devpost](https://devpost.com/software/city-hunter-i
 ## Testing Instructions
 
 1. **Access the Demo**  
-   Visit the live demo at [City Hunter Demo](https://city-hunter.vercel.app/).  
+   Visit the live demo at [City Hunter Demo](https://city-hunter.vercel.app/). (Deprecated: API usage limitations, including potential charges)
    - **Important**: Always start from the main link: `https://city-hunter.vercel.app/`. Starting from specific paths (e.g., `https://city-hunter.vercel.app/hunt`) is not supported and may result in unexpected behavior.  
 
 2. **Complete the Tutorial**  
